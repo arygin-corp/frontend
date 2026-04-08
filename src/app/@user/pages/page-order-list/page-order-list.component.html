@@ -1,0 +1,88 @@
+<div class="card">
+    <div class="card-header">
+        <div class="">
+            <div class="row d-flex justify-content-between" style="margin-bottom: 12px;">
+                <div class="col-md-4">
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Search</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="by Products, Request, or RITM Numbers" 
+                            #txtSearch
+                            (keyup)="FilterOrderList(txtSearch, true)">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend2">Filter</span>
+                        </div>
+                        <select class="custom-select custom-select-sm form-control" 
+                            #ddlOrdersDuration
+                            (change)="ShowOrdersFor(ddlOrdersDuration.value, true)">
+                            <option value="7_DAYS">Last 7 days</option>
+                            <option value="14_DAYS">Last 14 days</option>
+                            <option value="1_MONTH">Last month</option>
+                            <option value="3_MONTHS" selected>Last 3 months</option>
+                            <option value="6_MONTHS">Last 6 months</option>
+                            <option value="1_YEAR">Last year</option>
+                            <option value="ALL">All</option>
+                        </select>
+                    </div>  
+                </div>
+            </div>
+        </div>
+        <h5>Order History</h5>
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-table">
+        <div class="table-responsive-sm">
+            <table>
+                <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>RITM #</th>
+                    <th>Order Date</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- <tr *ngFor="let order of orders"> -->
+                <tr *ngFor="let item of orderList">
+                    <td>{{item.id}}</td>
+                    <td>{{item.number}}</td>
+                    <td>{{item.openedAt | date:'MMMM dd, yyyy'}}</td>
+                    <td>Pending</td>
+                    <td><a href="" class="btn btn-primary btn-sm">View Details</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-divider"></div>
+    <div class="card-footer">
+        <!--<app-pagination [total]="10"></app-pagination>-->
+        <div *ngIf="!orderList.length && noOrder && noDataFoundMessage != null">
+            <div class="col-md-12">
+                <div class="alert alert-warning" role="alert" style="padding: 0.75rem 1.25rem;">
+                    <span [innerHTML]="noDataFoundMessage"></span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!orderList.length && !noOrder">
+            <div class="col-md-12">
+                <div class="alert alert-warning" role="alert" style="padding: 0.75rem 1.25rem;">
+                    <span [innerHTML]="searchingMessage"></span>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center" *ngIf="orderList.length">
+            <pagination-controls
+                previousLabel="Prev"
+                nextLabel="Next"
+                (pageChange)="onPageChange($event)">
+            </pagination-controls>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,272 @@
+<app-header-request-access [product]="product" *ngIf="dropcartType === 'offcanvas'" type="offcanvas"></app-header-request-access>
+<app-header-request-access [product]="selectedItem?.product" *ngIf="dropcartType === 'offcanvas'" type="offcanvas"></app-header-request-access>
+
+<app-page-header [header]="'Cart'" [breadcrumbs]="[
+    {label: 'Domains', url: root.home()},
+    {label: 'Cart', url: ''}
+]"></app-page-header>
+
+<div class="block block-empty" *ngIf="!allItems.length">
+    <div class="container">
+        <div class="block-empty__body">
+            <div class="block-empty__message">Your shopping cart is empty!</div>
+            <div class="block-empty__actions">
+                <a [routerLink]="root.shop()" class="btn btn-primary btn-sm">Continue</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cart block" *ngIf="allItems.length">
+    <div class="container-fluid">
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link" [class.active]="activeTab === 'all'" (click)="activeTab = 'all'">
+                    <img src="assets/images/marketplace/cart/all-products.png" width="24" class="me-2" alt="products icon">
+                    All ({{ allItems.length }})
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [class.active]="activeTab === 'products'" (click)="activeTab = 'products'">
+                    <img src="assets/images/marketplace/cart/data-products.png" width="24" class="me-2" alt="products icon">
+                    Products ({{ productItems.length }})
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [class.active]="activeTab === 'dar'" (click)="activeTab = 'dar'">
+                    <img src="assets/images/marketplace/cart/dars.png" width="24" class="me-2" alt="products icon">
+                    Data Access Request (DAR) ({{ darRequests.length }})
+                </a>
+            </li>
+        </ul>
+
+        <!-- ALL TAB -->
+        <div *ngIf="activeTab === 'all'">
+            <div class="d-flex align-items-center mb-3">
+                <h5 class="mb-0">All</h5>
+            </div>
+            <table class="cart__table cart-table">
+                <thead class="cart-table__head">
+                    <tr class="cart-table__row">
+                        <th class="cart-table__column cart-table__column--image">Image</th>
+                        <th class="cart-table__column cart-table__column--product">Title</th>
+                        <!-- Generic Headers for Mixed View -->
+                        <th class="cart-table__column cart-table__column--product">Data Steward / Requestor</th>
+                        <th class="cart-table__column cart-table__column--product">Contact / Domain</th>
+                        <th class="cart-table__column cart-table__column--product">Datatype / Platform</th>
+                        <th class="cart-table__column cart-table__column--product">Classification / Env</th>
+                        <th class="cart-table__column cart-table__column--total">Total</th>
+                        <th class="cart-table__column cart-table__column--actions text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="cart-table__body">
+                    <tr *ngFor="let item of allItems" class="cart-table__row">
+                        <!-- IMAGE -->
+                        <td class="cart-table__column cart-table__column--image">
+                            <ng-container *ngIf="item.type === 'product'; else darImage">
+                                <div *ngIf="item.cartItem.product.images?.length" class="product-image">
+                                    <a [routerLink]="root.product(item.cartItem.product)" class="product-image__body">
+                                        <img class="product-image__img" [src]="'assets/images/product_images/' + item.cartItem.product.images[0]" alt="">
+                                    </a>
+                                </div>
+                            </ng-container>
+                            <ng-template #darImage>
+                                <img src="assets/images/product_images/data-access-request.jpg" width="80" alt="dar">
+                            </ng-template>
+                        </td>
+
+                        <!-- TITLE / PLATFORM -->
+                        <td class="cart-table__column cart-table__column--product">
+                            <a *ngIf="item.type === 'product'; else darTitle" [href]="root.product(item.cartItem.product)" class="cart-table__product-name">
+                                {{ item.cartItem.product.name }}
+                            </a>
+                            <ng-template #darTitle>
+                                <div class="cart-table__product-name">
+                                    {{ item.dar?.v_dar_platform || 'Data Access Request' }}
+                                </div>
+                            </ng-template>
+                        </td>
+
+                        <!-- DATA STEWARD / REQUESTOR -->
+                        <td class="cart-table__column cart-table__column--product">
+                            <p class="cart-table__product-name">
+                                {{ item.type === 'product' ? item.cartItem.product.dataSteward : (item.dar?.requesting_id === 'Me' ? 'Myself' : (item.dar?.requestorName || item.dar?.v_dar_objectid_reqfor || '—')) }}
+                            </p>
+                        </td>
+
+                        <!-- CONTACT / CREATED BY -->
+                        <td class="cart-table__column cart-table__column--product">
+                            <p class="cart-table__product-name">
+                                {{ item.type === 'product' ? item.cartItem.product.pocName : (item.dar?.v_dar_dataDomainSelect || '—') }}
+                            </p>
+                        </td>
+
+                        <!-- DATATYPE / ACCESS TYPE -->
+                        <td class="cart-table__column cart-table__column--product">
+                            <p class="cart-table__product-name">
+                                {{ item.type === 'product' ? item.cartItem.product.datatype : (item.dar?.v_dat_data_access_type || '—') }}
+                            </p>
+                        </td>
+
+                        <!-- CLASSIFICATION / ENVIRONMENT -->
+                        <td class="cart-table__column cart-table__column--product">
+                            <span class="cart-table__product-name">
+                                {{ item.type === 'product' ? item.cartItem.product.classification : (item.dar?.v_dar_environment || '—') }}
+                            </span>
+                        </td>
+
+                        <!-- TOTAL -->
+                        <td class="cart-table__column cart-table__column--total">
+                            {{ item.type === 'product' ? (item.cartItem.product.price * item.quantity | currencyFormat) : '$0.00' }}
+                        </td>
+
+                        <!-- ACTIONS -->
+                        <td class="cart-table__column cart-table__column--action text-end">
+                            <div style="display:flex;gap:8px;align-items:center;justify-content:flex-end;">
+                                <button type="button" class="btn btn-light btn-sm btn-svg-icon"
+                                    (click)="item.type === 'product' ? editItem(item.cartItem) : editDar(item.dar)">
+                                    <img src="assets/svg/edit.svg" width="16">
+                                </button>
+                                <button type="button"class="btn btn-light btn-sm btn-svg-icon"
+                                    (click)="item.type === 'product' ? remove(item.cartItem) : removeDar(item.dar)"
+                                    [ngClass]="{'btn-loading': removedItems.includes(item.type === 'product' ? item.cartItem : item.dar)}">
+                                    <app-icon name="cross-12" size="12"></app-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PRODUCTS TAB -->
+        <div *ngIf="activeTab === 'products'">
+            <div class="d-flex align-items-center mb-3">
+                <h5 class="mb-0">Products</h5>
+            </div>
+            <table class="cart__table cart-table">
+                <thead class="cart-table__head">
+                    <tr class="cart-table__row">
+                        <th class="cart-table__column cart-table__column--image">Image</th>
+                        <th class="cart-table__column cart-table__column--product">Product</th>
+                        <th class="cart-table__column cart-table__column--product">Data Steward</th>
+                        <th class="cart-table__column cart-table__column--product">Contact</th>
+                        <th class="cart-table__column cart-table__column--product">Datatype</th>
+                        <th class="cart-table__column cart-table__column--product">Classification</th>
+                        <th class="cart-table__column cart-table__column--total">Total</th>
+                        <th class="cart-table__column cart-table__column--actions text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="cart-table__body">
+                    <tr *ngFor="let item of productItems" class="cart-table__Row">
+                        <td class="cart-table__column cart-table__column--image">
+                            <div *ngIf="item.cartItem.product.images?.length" class="product-image">
+                                <a [routerLink]="root.product(item.cartItem.product)" class="product-image__body">
+                                    <img class="product-image__img" [src]="'assets/images/product_images/' + item.cartItem.product.images[0]" alt="">
+                                </a>
+                            </div>
+                        </td>
+                        <td class="cart-table__column cart-table__column--product">
+                            <a [href]="root.product(item.cartItem.product)" class="cart-table__product-name">{{ item.cartItem.product.name }}</a>
+                            <ul *ngIf="item.cartItem.options.length" class="cart-table__options">
+                                <li *ngFor="let option of item.cartItem.options">{{ option.name }}: {{ option.value }}</li>
+                            </ul>
+                        </td>
+                        <td class="cart-table__column cart-table__column--product">
+                            <p class="cart-table__product-name">{{ item.cartItem.product.dataSteward }}</p>
+                        </td>
+                        <td class="cart-table__column cart-table__column--product">
+                            <p class="cart-table__product-name">{{ item.cartItem.product.pocName }}</p>
+                        </td>
+                        <td class="cart-table__column cart-table__column--product">
+                            <p class="cart-table__product-name">{{ item.cartItem.product.datatype }}</p>
+                        </td>
+                        <td class="cart-table__column cart-table__column--product">{{ item.cartItem.product.classification }}</td>
+                        <td class="cart-table__column cart-table__column--total">{{ item.cartItem.product.price * item.quantity | currencyFormat }}</td>
+                        <td class="cart-table__column cart-table__column--action">
+                            <div style="display: flex; gap: 8px; align-items: center; justify-content: flex-end;">
+                                <button type="button" class="btn btn-light btn-sm btn-svg-icon left" (click)="editItem(item.cartItem)">
+                                    <img src="assets/svg/edit.svg" width="16">
+                                </button>
+                                <button type="button" class="btn btn-light btn-sm btn-svg-icon left" (click)="remove(item.cartItem)" [ngClass]="{'btn-loading': removedItems.includes(item.cartItem)}">
+                                    <app-icon name="cross-12" size="12"></app-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- DAR TAB -->
+        <div *ngIf="activeTab === 'dar'">
+            <div class="d-flex align-items-center mb-3">
+                <h5 class="mb-0">Data Access Request (DAR)</h5>
+            </div>
+            <table class="cart__table cart-table">
+                <thead class="cart-table__head">
+                    <tr class="cart-table__row">
+                        <th class="cart-table__column cart-table__column--image">Image</th>
+                        <th class="cart-table__column cart-table__column--product">Platform</th>
+                        <th class="cart-table__column cart-table__column--product">Domain</th>
+                        <th class="cart-table__column cart-table__column--product">Requested For</th>
+                        <th class="cart-table__column cart-table__column--product">Environment</th>
+                        <th class="cart-table__column cart-table__column--product">Access Type</th>
+                        <th class="cart-table__column cart-table__column--total">Total</th>
+                        <th class="cart-table__column cart-table__column--actions text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="cart-table__body">
+                    <tr *ngFor="let req of darRequests" class="cart-table__row">
+                        <td class="cart-table__column cart-table__column--image">
+                            <img src="assets/images/product_images/data-access-request.jpg" width="80" alt="dar" />
+                        </td>
+                        <td class="cart-table__column cart-table__column--product">
+                            <p class="cart-table__product-name">{{ req.dar?.v_dar_platform || '—' }}</p>
+                        </td>
+                        <td class="cart-table__column cart-table__column--product">
+                            <p class="cart-table__product-name">{{ req.dar?.v_dar_dataDomainSelect || '—' }}</p>
+                        </td>
+                        <td class="cart-table__column cart-table__column--product">
+                            <p class="cart-table__product-name">
+                                {{ req.dar?.requesting_id === 'Me' ? 'Myself' : (req.dar?.requestorName || req.dar?.v_dar_objectid_reqfor || '—') }}
+                            </p>
+                        </td>
+                        <td class="cart-table__column cart-table__column--product">
+                            <p class="cart-table__product-name">{{ req.dar?.v_dar_environment || '—' }}</p>
+                        </td>
+                        <td class="cart-table__column cart-table__column--product">
+                            <p class="cart-table__product-name">{{ req.dar?.v_dat_data_access_type || '—' }}</p>
+                        </td>
+                        <td class="cart-table__column cart-table__column--total">$0.00</td>
+                        <td class="cart-table__column cart-table__column--action">
+                            <div style="display: flex; gap: 8px; align-items: center; justify-content: flex-end;">
+                                <button type="button" class="btn btn-light btn-sm btn-svg-icon left" (click)="editDar(req.dar)">
+                                    <img src="assets/svg/edit.svg" width="16">
+                                </button>
+                                <button type="button" class="btn btn-light btn-sm btn-svg-icon left" (click)="removeDar(req.dar)" [ngClass]="{'btn-loading': removedItems.includes(req.dar)}">
+                                    <app-icon name="cross-12" size="12"></app-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row justify-content-end">
+            <div class="cart__actions mt-4">
+                <div class="cart__buttons">
+                    <a routerLink="/" class="btn btn-light">Continue Shopping</a>
+                    <button type="button" class="btn btn-primary cart__update-button" (click)="update()" [ngClass]="{'btn-loading': updating}" [disabled]="!needUpdate()">Update Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-end pt-5">
+            <div class="col-12 col-md-7 col-lg-6 col-xl-5">
+                <a class="btn btn-primary btn-xl btn-block cart__checkout-button" routerLink="./checkout" style="float: right;">Proceed to checkout</a>
+            </div>
+        </div>
+    </div>
+</div>

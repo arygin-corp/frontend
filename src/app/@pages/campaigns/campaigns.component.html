@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h4 class="display-4 text-center" style="font-size: 28px; font-weight: 700;">New Product Releases</h4>
+            <p class="lead text-center" style="font-size: 14px; font-weight: 300;">These new products have been release on Data Marketplace within the last 60 days.</p>
+        </div>
+    </div>
+</div>
+
+<app-block-slideshow></app-block-slideshow>
+
+<app-block-domains header="Popular Domains" layout="classic" [domains]="(popularDomains$|async) || []"></app-block-domains>
+
+<app-block-products-carousel
+    header="New Arrivals"
+    layout="horizontal"
+    [rows]="2"
+    [loading]="latestProducts.loading"
+    [products]="latestProducts.products"
+    [groups]="latestProducts.groups"
+    (groupChange)="groupChange(latestProducts, $event)">
+</app-block-products-carousel>
+
+<app-block-banner></app-block-banner>
+
+<app-block-products-carousel
+    header="Featured Products"
+    layout="grid-4"
+    [loading]="featuredProducts.loading"
+    [products]="featuredProducts.products"
+    [groups]="featuredProducts.groups"
+    (groupChange)="groupChange(featuredProducts, $event)">
+</app-block-products-carousel>
+
+<app-block-products header="Most Requested" layout="large-first" [products]="(bestsellers$|async) || []"></app-block-products>
+
+<app-block-product-columns>
+    <app-block-product-columns-item header="Top Rated Products" [products]="(columnTopRated$|async) || []"></app-block-product-columns-item>
+    <app-block-product-columns-item header="Special Offers" [products]="(columnSpecialOffers$|async) || []"></app-block-product-columns-item>
+    <app-block-product-columns-item header="Bestsellers" [products]="(columnBestsellers$|async) || []"></app-block-product-columns-item>
+</app-block-product-columns>

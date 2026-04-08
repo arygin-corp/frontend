@@ -1,0 +1,28 @@
+[
+  {
+    "heading": "Promo Video",
+    "slug": "promo-video-1",
+    "imageUrl": "assets/resources/thumbnails/video1.png",
+    "icon": "assets/images/icons/tools/720p.svg",
+    "date": "April 12, 2020",
+    "size": "120.1MB",
+    "format": "MP4",
+    "mp4Url": "assets/video/Promo_Video_Without_Narration_720p.mp4",
+    "webmUrl": "assets/video/Promo_Video_Without_Narration_720p.wedm",
+    "downloadUrl": "https://radar-prod-use1-s3-web.s3.amazonaws.com/media/promos/Promo+Video+With+Narration+720p.mp4",
+    "customClass": "consumption"
+  },
+  {
+    "heading": "Promo Video 2",
+    "imageUrl": "assets/resources/thumbnails/video2.png",
+    "slug": "promo-video-2",
+    "icon": "assets/images/icons/tools/1080p.svg",
+    "date": "March 14, 2021",
+    "size": "63.7MB",
+    "format": "MP4",
+    "mp4Url": "assets/video/DM_Promo_Video.mp4",
+    "webmUrl": "assets/video/DM_Promo_Video.wedm",
+    "downloadUrl": "assets/video/DM_Promo_Video.mp4",
+    "customClass": "consumption"
+  }
+]

@@ -1,0 +1,230 @@
+<div class="product product--layout--{{ layout }}" *ngIf="product">
+    <h5 class="product__name">{{ product.name }}
+        <!-- <span *ngIf="product.dataSharingAgreement==='active'">
+            <p class="badge badge-sensitive badge-outlined">Data Sharing Agreement Active</p>
+        </span> -->
+    </h5>
+    <div class="row" style="margin: 0px;">
+        <ul class="product__meta col-lg-6" style="margin-bottom: 12px;">
+            <!-- <div class="product__rating" style="margin-right: 24px;">
+                <div class="product__rating-stars">
+                    <app-rating [value]="product.rating"></app-rating>
+                </div>
+                <div class="product__rating-legend">
+                    <a href="" appClick>{{ product.reviews }} Reviews</a><span>/</span><a href="" appClick>Write A Review</a>
+                </div>
+            </div> -->
+            <!-- <li class="product__meta-platformType">Datatype:
+                 <span class="text-secondary"><strong>{{product.datatype}}</strong></span>
+            </li> -->
+            <li>SKU: <strong class="text-secondary">{{product.sku}}</strong></li>
+            <li>Organization: <strong class="text-danger">{{product.org_abbrev}}</strong></li>
+        </ul>
+        <div class="product__meta col-lg-6">
+            <span *ngIf="!product.badges">
+                <p class="badge badge-sensitive badge-outlined">Sensitive</p>
+            </span>
+            <span *ngIf="product.classification==='Public'">
+                <p class="badge badge-danger badge-outlined">Public</p>
+            </span>
+            <span *ngIf="product.classification==='Protected'">
+                <p class="badge badge-danger badge-outlined">Protected</p>
+            </span>
+            <span *ngIf="product.classification==='Confidential'">
+                <p class="badge badge-danger badge-outlined">Confidential</p>
+            </span>
+            <span *ngIf="product.datatype==='Dashboards'">
+                <p class="badge badge-datatype badge-outlined">Dashboards</p>
+            </span>
+            <span *ngIf="product.datatype==='Reports'">
+                <p class="badge badge-datatype badge-outlined">Reports</p>
+            </span>
+            <span *ngIf="product.datatype==='Data Science'">
+                <p class="badge badge-datatype badge-outlined">Data Science</p>
+            </span>
+            <span *ngIf="product.datatype==='Dataset'">
+                <p class="badge badge-datatype badge-outlined">Dataset</p>
+            </span>
+            <span *ngIf="product.datatype==='Webservices (APIs)'">
+                <p class="badge badge-datatype badge-outlined">APIs</p>
+            </span>
+        </div>
+    </div>
+    <div class="product__content">
+        <!-- .product__gallery -->
+        <div class="product__gallery">
+            <app-product-gallery [productLayout]="layout" [images]="product.images"></app-product-gallery>
+        </div>
+        <!-- .product__gallery / end -->
+        <!-- .product__info -->
+        <div class="product__info">
+            <div class="product__wishlist-compare">
+                <button type="button" class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip" data-placement="right" title="Wishlist"
+                        appClick (click)="addToWishlist()"
+                        [ngClass]="{'btn-loading': addingToWishlist}">
+                    <app-icon name="wishlist-16" size="16"></app-icon>
+                </button>
+                <button type="button" class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip" data-placement="right" title="Compare"
+                        appClick (click)="addToCompare()"
+                        [ngClass]="{'btn-loading': addingToCompare}">
+                    <app-icon name="compare-16" size="16"></app-icon>
+                </button>
+            </div>
+            <div class="product__description">
+                <h6>Description</h6>
+                {{ product.brief_desc }}
+            </div>
+
+            <ul class="product__features">
+                <li>Speed: 750 RPM</li>
+                <li>Power Source: Cordless-Electric</li>
+                <li>Battery Cell Type: Lithium</li>
+                <li>Voltage: 20 Volts</li>
+                <li>Battery Capacity: 2 Ah</li>
+            </ul>
+        </div>
+        <!-- .product__info / end -->
+        <!-- .product__sidebar -->
+        <div class="product__sidebar">
+            <!-- <div class="product__platformType">
+                <span class="badge badge-secondary badge-outlined">Status: 
+                    <span class="text-success"><strong>In Stock</strong></span>
+                </span>
+            </div> -->
+
+            <div class="product__prices collapse">
+                <ng-container *ngIf="product.compareAtPrice">
+                    <span class="product__new-price">{{ product.price|currencyFormat }}</span>{{ ' ' }}
+                    <span class="product__old-price">{{ product.compareAtPrice|currencyFormat }}</span>
+                </ng-container>
+                <ng-container *ngIf="!product.compareAtPrice">
+                    {{ product.price|currencyFormat }}
+                </ng-container>
+            </div>
+            <!-- .product__options -->
+            <form class="product__options">
+                <div class="form-group product__option row">
+                    <h6>Product Contacts</h6>
+                    <div class="col-lg-12">
+                        <!-- Data Steward Section -->
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-5" style="float: left;padding: 0px;">
+                            <label class="product__option-label" style="font-weight: bold; font-size: 14px;">Data Steward: </label><br>
+                            <p>
+                                <span style="font-weight: bold; font-size: 14px;">{{product.data_steward.name}}</span><br>
+                                <!-- Microsoft Teams Link (FIXED with helper method) -->
+                                <!-- <a href="https://teams.microsoft.com/l/chat/0/0?users={{product.data_steward.email}}&message=Hello, I need help with my data access request" target="_blank" class="teams-btn">
+                                    <span>
+                                        <img src="assets/images/badges/brands/microsoft_teams.svg" style="width: 100%;max-width: 120px;margin-right: 12px;margin-left: 0px;">
+                                    </span>
+                                </a>
+                                <a href="mailto:{{product.data_steward.email}}?subject=Inquiry About {{ product.name }} product in Data Marketplace!&body=Hi {{product.data_steward.name}},%0D%0D I was inquiring about the {{product.name}} product in Data Marketplace.">
+                                    <span>
+                                        <img src="assets/images/badges/brands/microsoft_outlook.svg" style="width: 100%; max-width: 94px; margin-right: 12px; margin-left: 0px;">
+                                    </span>
+                                </a> -->
+                            </p>
+                        </div>
+
+                        <!-- Contact Section -->
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-5" style="float: left;padding: 0px;">
+                            <label class="product__option-label" style="font-weight: bold; font-size: 14px;">Contact:</label><br> 
+                            <p>
+                                <span style="font-weight: bold; font-size: 14px;">{{product.poc_name.name}}</span><br>
+                                <!-- <a href="https://teams.microsoft.com/l/chat/0/0?users={{product.poc_name.email}}&topicName={{ product.name }}&message=Hi, {{product.poc_name.name}}! I have an inquiry about {{ product.name }} in Data Marketplace." target="_blank">
+                                    <span>
+                                        <img src="assets/images/badges/brands/microsoft_teams.svg" style="width: 100%;max-width: 120px;margin-right: 12px;margin-left: 0px; margin-top: 8px;">
+                                    </span>
+                                </a>
+                                <a href="mailto:{{product.poc_name.email}}?subject=Inquiry About {{ product.name }} product in Data Marketplace!&body=Hi {{product.poc_name.name}},%0D%0D I was inquiring about the {{product.name}} product in Data Marketplace.">
+                                    <span>
+                                        <img src="assets/images/badges/brands/microsoft_outlook.svg" style="width: 100%; max-width: 94px; margin-right: 12px; margin-left: 0px; margin-top: 8px;">
+                                    </span>
+                                </a> -->
+                            </p>
+                        </div>
+
+                        <!-- Business Contact Section -->
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-5" style="float: left;padding: 0px;" *ngIf="product.business_contact">
+                            <label class="product__option-label" style="font-weight: bold; font-size: 14px;">Business Contact:</label><br>
+                            <p>
+                                <span style="font-weight: bold; font-size: 14px;">{{product.business_contact.name}}</span><br>
+                                <!-- <a [href]="getTeamsLink(product.business_contact)" target="_blank">
+                                    <span><img src="assets/images/badges/brands/microsoft_teams.svg" style="width: 100%;max-width: 120px;margin-right: 12px; margin-top: 8px;"></span>
+                                </a>
+                                <a [href]="getMailtoLink(product.business_contact)" target="_blank">
+                                    <span><img src="assets/images/badges/brands/microsoft_outlook.svg" style="width: 100%; max-width: 94px; margin-top: 8px;"></span>
+                                </a> -->
+                            </p>
+                        </div>
+
+                         <!-- Business SME Section -->
+                        <!-- Note: Updated to product.business_contact to match common JSON structures -->
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-5" style="float: left;padding: 0px;" *ngIf="product.business_sme">
+                            <label class="product__option-label" style="font-weight: bold; font-size: 14px;">Business SME:</label><br> 
+                            <p>
+                                <span style="font-weight: bold; font-size: 14px;">{{product.business_sme.name}}</span><br>
+                                <!-- <a href="https://teams.microsoft.com/l/chat/0/0?users={{product.business_sme.email}}&topicName={{ product.name }}&message=Hi, {{product.business_sme.name}}! I have an inquiry about {{ product.name }} in Data Marketplace." target="_blank">
+                                    <span>
+                                        <img src="assets/images/badges/brands/microsoft_teams.svg" style="width: 100%;max-width: 120px;margin-right: 12px;margin-left: 0px; margin-top: 8px;">
+                                    </span>
+                                </a>
+                                 <a href="mailto:{{product.business_sme.email}}?subject=Inquiry About {{ product.name }} product in Data Marketplace!&body=Hi {{product.business_sme.name}},%0D%0D I was inquirying about {{product.name}} product in Data Marketplace." target="_blank">
+                                    <span>
+                                        <img src="assets/images/badges/brands/microsoft_outlook.svg" style="width: 100%; max-width: 94px; margin-right: 12px; margin-left: 0px; margin-top: 8px;">
+                                    </span>
+                                </a> -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group product__option">
+                    <div class="product__actions">
+                        <div class="product__actions-item product__actions-item--addtocart">
+                            <button type="button" 
+                                class="btn btn-primary btn-lg btn-block" 
+                                [ngClass]="{'btn-loading': addingToCart}" 
+                                appClick 
+                                (click)="openRequestForm()">Request Access
+                            </button>
+                        </div>
+                        <!-- <div class="product__actions-item product__actions-item--addtocart">
+                            <button type="button" 
+                                class="btn btn-primary btn-lg btn-block" 
+                                appClick 
+                                (click)="openRequestForm()">View Details
+                            </button>
+                        </div> -->
+                        <div class="product__actions-item product__actions-item--wishlist">
+                            <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Wishlist"
+                                    [ngClass]="{'btn-loading': addingToWishlist}"
+                                    appClick (click)="addToWishlist()">
+                                <app-icon name="wishlist-16" size="16"></app-icon>
+                            </button>
+                        </div>
+                        <div class="product__actions-item product__actions-item--compare">
+                            <button type="button" class="btn btn-secondary btn-svg-icon btn-lg" data-toggle="tooltip" title="Compare"
+                                    [ngClass]="{'btn-loading': addingToCompare}"
+                                    appClick (click)="addToCompare()">
+                                <app-icon name="compare-16" size="16"></app-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group product__option">
+                    <label class="product__option-label">Keywords</label>
+                    <div class="product__tags tags">
+                        <div class="tags__list">
+                            <ul class="tags__list" *ngFor="let keyword of product.keywords;">
+                                <li class="keywords"><a>{{ keyword }}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> 
+            </form>
+            <!-- .product__options / end -->
+        </div>
+        <!-- .product__end -->
+    </div>
+</div>

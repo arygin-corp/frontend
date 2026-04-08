@@ -1,0 +1,265 @@
+/* data-access-request.component.scss */
+/* This is the SCSS file you uploaded; it is preserved exactly as requested. */
+.sidebar-col .sticky-requirements {
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+    align-self: flex-start; /* Key property for flex container */
+}
+
+.sidebar-col .sticky-requirements>.col-lg-12 {
+    max-height: calc(100vh - 40px);
+    overflow: auto;
+}
+
+/* Ensure the parent row doesn't restrict the height if using sticky */
+.container-fluid {
+    display: flex;
+    align-items: flex-start;
+}
+
+.container {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* ensures the fixed wrapper is solid white and layered on top */
+.navbar-fixed-top {
+  position: sticky;
+  top: 0;
+  z-index: 1050; /* higher than sidebar and other elements */
+  background-color: #ffffff !important; /* solid white */
+  opacity: 1 !important;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.jumbotron {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  color: inherit;
+  background-color: #e5e5e5;
+  text-align: center;
+  color: #363636;
+}
+
+
+
+a.default {
+    cursor: pointer;
+}
+a.default:hover {
+    text-decoration: underline;
+}
+
+.title-bg {
+    background-color: #eee;
+    border-radius: 4px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.title-padding {
+    padding-left: 16px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.img-bg {
+    width: 100%;
+    max-width: 570px;
+}
+
+.scrollable-container {
+    height: 300px;
+    display: block;
+    overflow: scroll;
+}
+
+.sidebar-left {
+    position: fixed;
+    top: 144px; /* height of your footer */
+}
+
+/* loading dots */
+.loading:after {
+  content: ' .';
+  animation: dots 1s steps(5, end) infinite;}
+
+@keyframes dots {
+0%, 20% {
+  color: rgba(0,0,0,0);
+  text-shadow:
+    .25em 0 0 rgba(0,0,0,0),
+    .5em 0 0 rgba(0,0,0,0);}
+40% {
+  color: #28a745;
+  text-shadow:
+    .25em 0 0 rgba(0,0,0,0),
+    .5em 0 0 rgba(0,0,0,0);}
+60% {
+  text-shadow:
+    .25em 0 0 #28a745,
+    .5em 0 0 rgba(0,0,0,0);}
+80%, 100% {
+  text-shadow:
+    .25em 0 0 #28a745,
+    .5em 0 0 #28a745;}
+}
+
+.show {
+  display: block;
+}
+     
+.hide {
+  display: none;
+}
+
+.navbar-fixed-top {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 1;
+  background: white;
+}
+
+.navbar-fixed-top.cbp-af-header-shrink {
+  padding: 10px 0;
+}
+
+.homelink {
+  font-weight: normal;
+  color: #0d6efd;
+}
+
+.homelink:hover {
+  font-weight: 500;
+  color: #0a58ca;
+  text-decoration: underline;
+}
+
+.form-layout-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.dar-modular-card {
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.border-start-crimson {
+  border-left: 4px solid #862633;
+}
+
+.sticky-bottom {
+  position: sticky;
+  bottom: 0;
+}
+
+.required-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.validation-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.back {
+  z-index: 1;   /* lower number → behind */
+}
+
+.front {
+  z-index: 2;   /* higher number → in front */
+}
+
+/* 1.  Wrapper that locks page scroll */
+.page-lock {
+  height: 100vh;          /* exactly one screen */
+  overflow: hidden;       /* kill outer scroll */
+  display: flex;          /* keep flex children happy */
+  flex-direction: column;
+}
+
+/* 2.  Scrollable form area */
+.form-scroll {
+  flex: 1 1 auto;         /* fill remaining height */
+  overflow-y: auto;       /* internal scrollbar */
+  -webkit-overflow-scrolling: touch; /* smooth iOS */
+}
+
+/* layout: left sidebar + right form */
+	.form-layout-row {
+		display: flex;
+		align-items: flex-start;
+		gap: 1rem;
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	.sidebar-col {
+		flex: 0 0 280px;
+		max-width: 280px;
+		box-sizing: border-box;
+	}
+
+	.form-col {
+		flex: 1 1 auto;
+		min-width: 0;
+		box-sizing: border-box;
+	}
+
+	/* Make sidebar sticky but constrained below the jumbotron.
+   --jumbotron-height is set dynamically in the component. */
+	.sidebar-col .sticky-requirements {
+		position: sticky;
+		top: var(--jumbotron-height, 160px);
+		/* fallback to 160px */
+		z-index: 100;
+	}
+
+	/* ensure sidebar won't exceed viewport height visually */
+	.sidebar-col .sticky-requirements>.col-lg-12 {
+		max-height: calc(100vh - var(--jumbotron-height, 160px) - 32px);
+		overflow: auto;
+		/* if content too tall, allow internal scroll */
+	}
+
+	/* Responsive: stack sidebar above form on small screens */
+	@media (max-width: 991.98px) {
+		.form-layout-row {
+			display: block;
+		}
+
+		.sidebar-col {
+			width: 100%;
+			max-width: 100%;
+			margin-bottom: 1rem;
+		}
+
+		.form-col {
+			width: 100%;
+		}
+
+		/* disable sticky on small screens so natural flow works */
+		.sidebar-col .sticky-requirements {
+			position: static;
+			top: auto;
+		}
+	}
+
+
+.disabled-field {
+  background-color: #f0f0f0;
+  color: #777;
+  border: 1px solid #ccc;
+  pointer-events: none; /* prevents clicking / typing */
+  opacity: 0.7;
+}

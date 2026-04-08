@@ -1,0 +1,44 @@
+<div [formGroup]="myGroup" class="form-control">
+    <ng-select [items]="users"
+        #select
+        [(ngModel)]="selectedUserID"
+        [typeahead]="peopleInput$"
+        bindLabel="displayName"
+        [loading]="loading"
+        dropdownPosition="auto"
+        bindValue="id"
+        dropdownPosition="bottom"
+        placeholder="Who are your requesting access for?"
+        formControlName="v_dar_objectid_reqfor"
+        [clearable]="false"
+        [virtualScroll]="true"
+        (scrollToEnd)="onScrollToEnd()">
+        <ng-template ng-header-tmp>
+            <small class="form-text text-muted">Loaded {{users.length}} of {{users.length}}</small>
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+            <div>
+                <span>
+                    <b>Name: </b> 
+                </span>
+                <span [ngOptionHighlight]="search">
+                    {{item.givenName}} {{item.surname}}
+                </span>
+                <span>
+                    <b>   Company Name: </b> 
+                </span>
+                <span [ngOptionHighlight]="search">{{item.companyName}}</span>
+            </div>
+            <small>
+                <b>Department:</b> {{item.department}} | 
+                <b>Mail:</b> {{item.userPrincipalName}} 
+            </small>
+        </ng-template>
+        <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+            <div class="ng-option disabled">
+                This person is not in the GAC Tenant.
+            </div>
+        </ng-template>
+    </ng-select>
+</div>
+<p class="collapse"> User ObjectID: {{selectedUserID}}</p>

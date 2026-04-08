@@ -1,0 +1,363 @@
+<!-- Render required controls using the shared ValidationStatusComponent (value/label) -->
+<ul class="requirements">
+  <li class="row">
+      <p class="text-danger validation-margin text-validation" 
+      *ngIf="form.get('requesting_id')?.value === 'User'" [hidden]="form.get('requesting_id')?.value === 'User'">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">For Myself</strong>
+      </p>
+      <p class="text-success validation-margi text-validation" [hidden]="form.get('requesting_id')?.value === 'User'">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">For Myself</strong>
+      </p>
+
+      <p class="text-danger validation-margin text-validation" 
+      *ngIf="form.get('v_dar_objectid_reqfor')?.value !== undefined" [hidden]="form.get('requesting_id')?.value === 'Me'">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">For Someone Else</strong>
+      </p>
+      <p class="text-success validation-margi text-validation" *ngIf="form.get('v_dar_objectid_reqfor')?.value" [hidden]="form.get('requesting_id')?.value === 'Me'">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">For Someone Else</strong>
+      </p>
+  </li>
+  <li class="row">
+      <p class="text-danger validation-margin text-validation" 
+      *ngIf="form.get('v_dar_platform')?.value !== undefined" [hidden]="form.get('v_dar_platform')?.value">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">Platform</strong>
+      </p>
+      <p class="text-success validation-margi text-validation" *ngIf="form.get('v_dar_platform')?.value">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">Platform</strong>
+      </p>
+  </li>
+  <li class="row">
+      <p class="text-danger validation-margin text-validation"
+      *ngIf="form.get('v_dar_dataDomainSelect')?.value !== undefined" [hidden]="form.get('v_dar_dataDomainSelect')?.value">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">Data Domain</strong>
+      </p>
+      <p class="text-success validation-margi text-validation" *ngIf="form.get('v_dar_dataDomainSelect')?.value">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">Data Domain</strong>
+      </p>
+  </li>
+  <li class="row">
+      <p class="text-danger validation-margin text-validation"
+      *ngIf="form.get('v_dar_userType')?.value !== undefined" [hidden]="form.get('v_dar_userType')?.value">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">User Access</strong>
+      </p>
+      <p class="text-success validation-margi text-validation" *ngIf="form.get('v_dar_userType')?.value">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">User Access</strong>
+      </p>
+  </li>
+  <li class="row">
+      <p class="text-danger validation-margin text-validation"
+      *ngIf="form.get('v_dar_accessType')?.value !== undefined" [hidden]="form.get('v_dar_accessType')?.value">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">User/App Access</strong>
+      </p>
+      <p class="text-success validation-margi text-validation" *ngIf="form.get('v_dar_accessType')?.value">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">User/App Access</strong>
+      </p>
+  </li>
+  <li class="row" *ngIf="form.get('v_dar_platform').value === 'API (EIG Application Support)'">
+      <p class="text-danger validation-margin text-validation"
+      *ngIf="form.get('v_dat_api_name')?.value !== undefined" [hidden]="form.get('v_dat_api_name')?.value">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">API Name</strong>
+      </p>
+      <p class="text-success validation-margi text-validation" *ngIf="form.get('v_dat_api_name')?.value">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">API Name</strong>
+      </p>
+  </li>
+  <!-- <li class="row">
+      <p class="text-danger validation-margin text-validation"
+      *ngIf="form.get('v_dar_systemAccess')?.value !== undefined" [hidden]="form.get('v_dar_systemAccess')?.value">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">System Access</strong>
+      </p>
+      <p class="text-success validation-margin text-validation" *ngIf="form.get('v_dar_systemAccess')?.value">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">System Access</strong>
+      </p>
+  </li>
+  <li class="row">
+  <p class="text-danger validation-margin text-validation" 
+      *ngIf="form.get('v_dar_mainframeAccess')?.value !== undefined" [hidden]="form.get('v_dar_mainframeAccess')?.value">
+      <span class="mr-6">
+      <i class="ri-prohibited-line text-danger icon-validation"></i>
+      </span>
+      <strong class="require">Mainframe Access</strong>
+  </p>
+  <p class="text-success validation-margi text-validation" *ngIf="form.get('v_dar_mainframeAccess')?.value">
+      <span class="mr-6">
+      <i class="ri-check-fill text-success icon-validation"></i>
+      </span>
+      <strong class="require">Mainframe Access</strong>
+  </p>
+  </li>
+  <li class="row">
+  <p class="text-danger validation-margin text-validation">
+      <span class="mr-6">
+      <i class="ri-prohibited-line text-danger icon-validation"></i>
+      </span>
+      <strong class="require">Data Warehouse/Mart</strong>
+  </p>
+  <p class="text-success validation-margi text-validation">
+      <span class="mr-6">
+      <i class="ri-check-fill text-success icon-validation"></i>
+      </span>
+      <strong class="require">Data Warehouse/Mart</strong>
+  </p>
+  </li>
+  <li class="row">
+      <p class="text-danger validation-margin text-validation">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">Gateway Access</strong>
+      </p>
+      <p class="text-success validation-margi text-validation">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">Gateway Access</strong>
+      </p>
+  </li>
+  <li class="row">
+      <p class="text-danger validation-margin text-validation">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">Oracle Access</strong>
+      </p>
+      <p class="text-success validation-margi text-validation">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">Oracle Access</strong>
+      </p>
+  </li>
+  <li class="row">
+      <p class="text-danger validation-margin text-validation">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">Database/Schema</strong>
+      </p>
+      <p class="text-success validation-margi text-validation">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">Database/Schema</strong>
+      </p>
+  </li>
+  <li class="row">
+      <p class="text-danger validation-margin text-validation">
+          <span class="mr-6">
+          <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">Table Name(s)</strong>
+      </p>
+      <p class="text-success validation-margi text-validation">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">Table Name(s)</strong>
+      </p>
+  </li>-->
+  <li class="row">
+  <p class="text-danger validation-margin text-validation"
+      *ngIf="form.get('v_dar_environment')?.value !== undefined" [hidden]="form.get('v_dar_environment')?.value">
+      <span class="mr-6">
+      <i class="ri-prohibited-line text-danger icon-validation"></i>
+      </span>
+      <strong class="require">Environment</strong>
+  </p>
+  <p class="text-success validation-margi text-validation" *ngIf="form.get('v_dar_environment')?.value">
+      <span class="mr-6">
+      <i class="ri-check-fill text-success icon-validation"></i>
+      </span>
+      <strong class="require">Environment</strong>
+  </p>
+  </li>
+  <li class="row">
+  <p class="text-danger validation-margin text-validation"
+      *ngIf="form.get('v_dat_data_access_type')?.value !== undefined" [hidden]="form.get('v_dat_data_access_type')?.value">
+      <span class="mr-6">
+      <i class="ri-prohibited-line text-danger icon-validation"></i>
+      </span>
+      <strong class="require">Data Access</strong>
+  </p>
+  <p class="text-success validation-margi text-validation" *ngIf="form.get('v_dat_data_access_type')?.value">
+      <span class="mr-6">
+      <i class="ri-check-fill text-success icon-validation"></i>
+      </span>
+      <strong class="require">Data Access</strong>
+  </p>
+  </li>
+  <li class="row">
+  <p class="text-danger validation-margin text-validation" 
+      *ngIf="form.get('v_dar_DataReqDescription')?.value !== undefined" [hidden]="form.get('v_dar_DataReqDescription')?.value">
+      <span class="mr-6">
+      <i class="ri-prohibited-line text-danger icon-validation"></i>
+      </span>
+      <strong class="require">Request Description</strong>
+  </p>
+  <p class="text-success validation-margi text-validation" *ngIf="form.get('v_dar_DataReqDescription')?.value">
+      <span class="mr-6">
+      <i class="ri-check-fill text-success icon-validation"></i>
+      </span>
+      <strong class="require">Request Description</strong>
+  </p>
+  </li>
+
+  <li class="row">
+  <p class="text-danger validation-margin text-validation" 
+      *ngIf="form.get('v_dar_businessJustification')?.value !== undefined" [hidden]="form.get('v_dar_businessJustification')?.value">
+      <span class="mr-6">
+      <i class="ri-prohibited-line text-danger icon-validation"></i>
+      </span>
+      <strong class="require">Intended Use</strong>
+  </p>
+  <p class="text-success validation-margi text-validation" *ngIf="form.get('v_dar_businessJustification')?.value">
+      <span class="mr-6">
+      <i class="ri-check-fill text-success icon-validation"></i>
+      </span>
+      <strong class="require">Intended Use</strong>
+  </p>
+  </li>
+
+  <li class="row">
+  <p class="text-danger validation-margin text-validation"
+      *ngIf="form.get('v_emd_PI_access')?.value !== undefined" [hidden]="form.get('v_emd_PI_access')?.value">
+      <span class="mr-6">
+      <i class="ri-prohibited-line text-danger icon-validation"></i>
+      </span>
+      <strong class="require">Sensitive PI</strong>
+  </p>
+  <p class="text-success validation-margi text-validation" *ngIf="form.get('v_emd_PI_access')?.value">
+      <span class="mr-6">
+      <i class="ri-check-fill text-success icon-validation"></i>
+      </span>
+      <strong class="require">Sensitive PI</strong>
+  </p>
+  </li>
+
+  <div *ngIf="form.get('v_emd_PI_access')?.value === 'Yes'">
+  <li class="row">
+      <p class="text-danger validation-margin text-validation"
+      *ngIf="form.get('edm_PI_personal_details')?.value !== undefined" [hidden]="form.get('edm_PI_personal_details')?.value">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">PII Access</strong>
+      </p>
+      <p class="text-success validation-margi text-validation" *ngIf="form.get('edm_PI_personal_details')?.value">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">PII Access</strong>
+      </p>
+  </li>
+  <li class="row">
+      <p class="text-danger validation-margin text-validation"
+          *ngIf="form.get('v_emd_specify_PII_needs')?.value !== undefined" [hidden]="form.get('v_emd_specify_PII_needs')?.value">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">PII Explanation</strong>
+      </p>
+      <p class="text-success validation-margin text-validation" *ngIf="form.get('v_emd_specify_PII_needs')?.value">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">PII Explanation</strong>
+      </p>
+  </li>
+  <li class="row">
+      <p class="text-danger validation-margin text-validation"
+          *ngIf="form.get('v_edm_type_of_work')?.value !== undefined" [hidden]="form.get('v_edm_type_of_work')?.value">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">Type of Work</strong>
+      </p>
+      <p class="text-success validation-margin text-validation" *ngIf="form.get('v_edm_type_of_work')?.value">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">Type of Work</strong>
+      </p>
+  </li>
+  <li class="row">
+      <p class="text-danger validation-margin text-validation"
+          *ngIf="form.get('v_edm_3rd_party_vendor')?.value !== undefined" [hidden]="form.get('v_edm_3rd_party_vendor')?.value">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">3rd Party Vendor</strong>
+      </p>
+      <p class="text-success validation-margi text-validation" *ngIf="form.get('v_edm_3rd_party_vendor')?.value">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">3rd Party Vendor</strong>
+      </p>
+  </li>
+  </div>
+
+  <li class="row">
+      <p class="text-danger validation-margin text-validation"
+      *ngIf="form.get('chk_dar_terms_message')?.value !== undefined" [hidden]="form.get('chk_dar_terms_message')?.value">
+          <span class="mr-6">
+              <i class="ri-prohibited-line text-danger icon-validation"></i>
+          </span>
+          <strong class="require">Terms of Use</strong>
+      </p>
+      <p class="text-success validation-margi text-validation" *ngIf="form.get('chk_dar_terms_message')?.value">
+          <span class="mr-6">
+              <i class="ri-check-fill text-success icon-validation"></i>
+          </span>
+          <strong class="require">Terms of Use</strong>
+      </p>
+  </li>
+</ul>
