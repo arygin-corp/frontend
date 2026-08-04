@@ -12,53 +12,49 @@ import { PageSecurityPostComponent } from './pages/page-security-post/page-secur
 import { PageSecurityPostDetailsComponent } from './pages/page-security-post-details/page-security-post-details.component';
 
 const routes: Routes = [
-    {
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      {
         path: '',
-        component: LayoutComponent,
-        children: [
-            {
-                path: '',
-                pathMatch: 'full',
-                redirectTo: 'home'
-            },
-            {
-                path: '',
-                component: NewsroomComponent
-            },
-            {
-                path: 'features',
-                component: PageFeaturePostComponent
-            },
-            {
-                path: 'feature/details/:id',
-                component: PageFeaturePostDetailsComponent
-            },
-            {
-                path: 'updates',
-                component: PageUpdatePostComponent
-            },
-            {
-                path: 'update/details/:id',
-                component: PageUpdatePostDetailsComponent
-            },
-            {
-                path: 'trending',
-                component: PageTrendingPostComponent
-            },
-            {
-                path: 'trending/details/:id',
-                component: PageTrendingPostDetailsComponent
-            },
-            {
-                path: 'security',
-                component: PageSecurityPostComponent
-            },
-            {
-                path: 'security/details/:id',
-                component: PageSecurityPostDetailsComponent
-            },
-        ]
-    }
+        pathMatch: 'full',
+        component: NewsroomComponent
+      },
+      {
+        path: 'features',
+        component: PageFeaturePostComponent
+      },
+      {
+        path: 'feature/details/:id',
+        component: PageFeaturePostDetailsComponent
+      },
+      {
+        path: 'updates',
+        component: PageUpdatePostComponent
+      },
+      {
+        path: 'update/details/:id',
+        component: PageUpdatePostDetailsComponent
+      },
+      {
+        path: 'trending',
+        component: PageTrendingPostComponent
+      },
+      {
+        path: 'trending/details/:id',
+        component: PageTrendingPostDetailsComponent
+      },
+      {
+        path: 'security',
+        component: PageSecurityPostComponent
+      },
+      {
+        path: 'security/details/:id',
+        component: PageSecurityPostDetailsComponent
+      }
+    ]
+  }
 ];
 
 @NgModule({

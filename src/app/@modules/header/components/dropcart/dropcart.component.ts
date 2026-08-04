@@ -55,6 +55,22 @@ export class DropcartComponent {
         }
     }
 
+    getProductImage(product: any): string {
+        const img = product?.images && product.images.length ? product.images[0] : null;
+        // fallback image if none provided
+        const fallback = 'assets/images/product_images/product-10.jpg';
+
+        if (!img) return fallback;
+
+        // If img is already an absolute URL (http(s) or protocol-less //), return it as-is
+        if (typeof img === 'string' && (img.startsWith('http://') || img.startsWith('https://') || img.startsWith('//'))) {
+            return img;
+        }
+
+        // Otherwise treat it as a filename inside local assets folder
+        return `assets/images/product_images/${img}`;
+    }
+
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();

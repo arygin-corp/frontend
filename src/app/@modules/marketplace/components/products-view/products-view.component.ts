@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnDestroy, OnInit} from '@angular/core';
 import { ShopSidebarService } from '../../services/shop-sidebar.service';
-import { PageDomainService } from '../../services/page-domain.service';
+import { PageMarketplaceService } from '../../services/page-marketplace.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -17,6 +17,7 @@ export class ProductsViewComponent implements OnInit, OnDestroy {
     @Input() layout: Layout = 'grid';
     @Input() grid: 'grid-3-sidebar'|'grid-4-full'|'grid-5-full' = 'grid-3-sidebar';
     @Input() offcanvas: 'always'|'mobile' = 'mobile';
+    @Output() gridChange = new EventEmitter<'grid-3-sidebar' | 'grid-4-full' | 'grid-5-full'>();
 
     destroy$: Subject<void> = new Subject<void>();
 
@@ -26,7 +27,7 @@ export class ProductsViewComponent implements OnInit, OnDestroy {
     constructor(
         private fb: FormBuilder,
         public sidebar: ShopSidebarService,
-        public pageService: PageDomainService,
+        public pageService: PageMarketplaceService,
     ) { }
 
     ngOnInit(): void {
@@ -61,6 +62,21 @@ export class ProductsViewComponent implements OnInit, OnDestroy {
 
     setLayout(value: Layout): void {
         this.layout = value;
+    }
+
+    setGrid(value: 'grid-3-sidebar' | 'grid-4-full' | 'grid-5-full'): void {
+        this.grid = value;
+    }
+
+    setViewMode(mode: 'grid-4-full' | 'grid-with-features'): void {
+        if (mode === 'grid-4-full') {
+            this.grid = 'grid-4-full';
+            this.layout = 'grid';
+        } else {
+            this.grid = 'grid-3-sidebar';
+            this.layout = 'grid-with-features';
+        }
+        this.gridChange.emit(this.grid);
     }
 
     resetFilters(): void {

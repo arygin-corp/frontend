@@ -11,7 +11,7 @@
 				<div class="text-center mb-2">
 					<label class="avatar avatar-xxl avatar-circle avatar-uploader profile-cover-avatar" for="editAvatarUploaderModal">
                         <div class="profile-card__avatar2">
-                            <!-- <img *ngIf="userPhotoUrl; else noImageFound" [src]="userPhotoUrl" alt="{{ appSvc?.userData?.givenName }} {{ appSvc?.userData?.surname }}" style="width: 100%;max-width: 118px; border-radius: 100px;"/> -->
+                            <img *ngIf="photo; else noImageFound" [src]="photo" alt="{{ appSvc?.userData?.givenName }} {{ appSvc?.userData?.surname }}" style="width: 100%;max-width: 118px; border-radius: 100px;"/>
                             <ng-template #noImageFound>
                                 <ngx-avatar size="118" bgColor="#222" fgColor="#04fdff" name="{{ appSvc?.userData?.givenName }} {{ appSvc?.userData?.surname }} "></ngx-avatar>
                             </ng-template>

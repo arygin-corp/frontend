@@ -107,6 +107,33 @@ export class PageCartComponent implements OnInit, OnDestroy {
         return this.items.some(item => item.quantityControl.value !== item.quantity && item.quantityControl.valid);
     }
 
+    getProductImage(product: any): string {
+        const fallback = 'assets/images/product_images/data-access-request.jpg';
+        if (!product) return fallback;
+
+        let img = '';
+
+        if (Array.isArray(product.images) && product.images.length) {
+            img = String(product.images[0]).trim();
+        } else if (product.image) {
+            img = String(product.image).trim();
+        } else {
+            return fallback;
+        }
+
+        if (!img) return fallback;
+
+        if (img.startsWith('http://') || img.startsWith('https://') || img.startsWith('//')) {
+            return img;
+        }
+
+        if (img.startsWith('/') || img.startsWith('assets/')) {
+            return img;
+        }
+
+        return `assets/images/product_images/${img}`;
+    }
+
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();

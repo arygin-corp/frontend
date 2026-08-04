@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, Data, ResolveData } from '@angular/router';
-import { PageDomainComponent } from './pages/page-domain/page-domain.component';
+import { PageMarketplaceComponent } from './pages/page-marketplace/page-marketplace.component';
 import { PageCartComponent } from './pages/page-cart/page-cart.component';
 import { PageFavoritesComponent } from './pages/page-favorites/page-favorites.component';
 import { PageCheckoutComponent } from './pages/page-checkout/page-checkout.component';
@@ -13,17 +13,17 @@ import { CheckoutGuard } from './guards/checkout.guard';
 
 // Resolvers
 import { ProductsListResolverService } from './resolvers/products-list-resolver.service';
-import { DomainResolverService } from './resolvers/domain-resolver.service';
+import { MarketplaceResolverService } from './resolvers/marketplace-resolver.service';
 import { ProductResolverService } from './resolvers/product-resolver.service';
 
-const domainPageData: Data = { 
+const marketplacePageData: Data = { 
     columns: 3, 
     viewMode: 'list', 
     sidebarPosition: 'start' 
 };
 
-const domainPageResolvers: ResolveData = { 
-    domain: DomainResolverService, 
+const marketplacePageResolvers: ResolveData = { 
+    marketplace: MarketplaceResolverService, 
     products: ProductsListResolverService 
 };
 
@@ -31,8 +31,8 @@ const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        component: PageDomainComponent,
-        data: domainPageData,
+        component: PageMarketplaceComponent,
+        data: marketplacePageData,
         // resolve: domainPageResolvers,
     },
     {
@@ -69,9 +69,9 @@ const routes: Routes = [
     },
     {
         path: '', 
-        component: PageDomainComponent,
-        data: domainPageData,
-        resolve: domainPageResolvers,
+        component: PageMarketplaceComponent,
+        data: marketplacePageData,
+        resolve: marketplacePageResolvers,
     }
 ];
 

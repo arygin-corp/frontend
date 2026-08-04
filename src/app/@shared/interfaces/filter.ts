@@ -24,6 +24,9 @@ export interface FilterItem {
 export interface ColorFilterItem extends FilterItem {
     color: string;
 }
+export interface DatatypeFilterItem extends FilterItem {
+    color: string;
+}
 export interface DomainFilterItem extends FilterItem {
     type: 'parent'|'current'|'child';
     domain: Domain;
@@ -34,6 +37,7 @@ export interface CategoryFilter extends FilterBase {
     root: boolean;
     items: DomainFilterItem[];
 }
+
 export interface RangeFilter extends ValuableFilterBase {
     type: 'range';
     value: RangeFilterValue;

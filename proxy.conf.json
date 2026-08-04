@@ -18,6 +18,14 @@
         "logLevel": "debug",
         "pathRewrite": {
             "^/api": ""
-          }
+        }
+    },
+    "/api/sn_sc": {
+        "target": "https://tmnatest.service-now.com",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug",
+        "pathRewrite": { 
+            "^/api/sn_sc": "/api/sn_sc" }
     }
 }

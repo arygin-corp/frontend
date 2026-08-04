@@ -30,8 +30,7 @@
             <div class="col-12 did_you_mean" *ngIf="didYouMean" style="padding: 12px 20px; background: #f8f9fa; border-bottom: 1px solid #e1e9f1;">
                 <p style="margin-bottom: 0; font-size: 14px; font-weight: 400; color: #3d464d;">
                     Did you mean: 
-                    <span (click)="applySuggestion(didYouMean)" 
-                        style="color: #007bff; cursor: pointer; text-decoration: underline; font-weight: 700;">
+                    <span (click)="applySuggestion(didYouMean)" style="color: #007bff; cursor: pointer; text-decoration: underline; font-weight: 700;">
                         {{ didYouMean }}
                     </span>?
                 </p>
@@ -41,7 +40,8 @@
                     <li *ngFor="let product of suggestedProducts; trackBy: trackByProductId" class="suggestions__item">
                         <div class="suggestions__item-image product-image">
                             <div class="product-image__body">
-                                <img class="product-image__img" [src]="'' + product.images[0]" alt="">
+                                <!-- <img class="product-image__img" [src]="'' + product.images[0]" alt=""> -->
+                                <img class="product-image__img" [src]="product.images && product.images.length ? product.images[0] : 'assets/images/product-placeholder.png'" alt="">
                             </div> 
                         </div>
 
@@ -54,10 +54,16 @@
                                     <span style="font-weight: 600;">SKU: </span> {{ product.sku }}
                                 </span>
                                 <span>
-                                    <span style="font-weight: 600;">Product Type: </span>{{ product.datatype }}
+                                    <span style="font-weight: 600;">Datatype: </span>{{ product.datatype }}
+                                </span>
+                                <span>
+                                    <span style="font-weight: 600;">Data Steward: </span>{{ product.data_steward }}
+                                </span>
+                                <span>
+                                    <span style="font-weight: 600;">Point of Contact: </span>{{ product.poc_name }}
                                 </span>
                             </div>
-                            <div class="suggestions__item-meta" style="margin-top: 4px;">
+                            <div class="suggestions__item-meta" style="margin-top: 6px;">
                                 <span>{{ product.short_desc }}</span>
                             </div>
                         </div>
@@ -67,9 +73,9 @@
                                 type="button"
                                 title="View Details"
                                 class="btn btn-primary btn-sm btn-svg-icon"
-                                [routerLink]="['marketplace/product/', product.slug]" 
+                                [routerLink]="['/marketplace/product', product.slug || product.sku]"
                                 (click)="closeSuggestion(); closeButtonClick.emit()" 
-                                style="width: 100%; padding: 0px 22px;">
+                                style="width: 100%; padding: 0px 22px;" >
                                 View Details
                             </button>
                         </div>

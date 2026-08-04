@@ -36,24 +36,71 @@ export class PageOrderSuccessComponent {
     }
 
     ngOnInit() {
-        // this.route.queryParams.subscribe(params => {
-        //     if (params['id']) {
-        //         this.order.id = params['id'];
-        //     }
-        // });
-        
-        // this.receipt = this.cart.getReceipt();
-         this.route.queryParams.subscribe(params => {
+        this.route.queryParams.subscribe(params => {
             this.orderId = params['id'] || 'REQ-SUCCESS';
         });
+
         this.receipt = this.cart.getReceipt();
 
-        // Auto-select tab logic
-        if (this.receipt?.productOrders?.length > 0) {
+        // If receipt was set by checkout, copy over display fields so template shows them
+        if (this.receipt) {
+            if (this.receipt.date) {
+                this.order.date = this.receipt.date;
+            }
+            if (this.receipt.total != null) {
+                this.order.total = this.receipt.total;
+            }
+            if (this.receipt.id) {
+                this.orderId = this.receipt.id;
+            }
+        }
+
+        // Auto-select tab using receipt arrays (items / darRequests)
+        if (this.receipt?.items?.length > 0) {
             this.activeTab = 'products';
-        } else if (this.receipt?.darOrders?.length > 0) {
+        } else if (this.receipt?.darRequests?.length > 0) {
             this.activeTab = 'dars';
         }
+    }
+
+    getProductImage(product: any): string {
+        const fallback = 'assets/images/product_images/data-access-request.jpg';
+        if (!product) return fallback;
+
+        let img = '';
+
+        if (Array.isArray(product.images) && product.images.length) {
+            img = String(product.images[0]).trim();
+        } else if (product.image) {
+            img = String(product.image).trim();
+        } else {
+            return fallback;
+        }
+
+        if (!img) return fallback;
+
+        if (img.startsWith('http://') || img.startsWith('https://') || img.startsWith('//')) {
+            return img;
+        }
+
+        if (img.startsWith('/') || img.startsWith('assets/')) {
+            return img;
+        }
+
+        return `assets/images/product_images/${img}`;
+    }
+
+    formatPlatform(platform: string | null | undefined): string {
+        if (!platform) return '';
+        const normalized = (platform || '').toString().toUpperCase();
+        const tbdpKeys = ['IRM', 'PASA', 'C360', 'Q360', 'IRM-PRICING'];
+        return tbdpKeys.some(k => normalized.includes(k)) ? 'TBDP' : platform;
+    }
+
+    formatOrNA(value: any): string {
+        if (value == null) return 'N/A';
+        const s = String(value).trim();
+        return s === '' ? 'N/A' : s;
     }
 
     checkAccount() {

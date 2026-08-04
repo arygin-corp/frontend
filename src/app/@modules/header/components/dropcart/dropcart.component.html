@@ -24,7 +24,7 @@
                     <div class="dropcart__product-image product-image">
                         <ng-container *ngIf="item.type === 'product'">
                             <a *ngIf="item.product.images?.length" class="product-image__body" [href]="root.product(item.product)">
-                                <img class="product-image__img" [src]="'assets/images/product_images/' + item.product.images[0]">
+                                <img class="product-image__img" [src]="getProductImage(item.product)">
                             </a>
                         </ng-container>
                         <ng-container *ngIf="item.type === 'dar'">

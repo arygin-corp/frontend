@@ -10,32 +10,45 @@
     </button>
 
     <div *ngIf="product.badges.length" class="product-card__badges-list">
-        <!-- <div *ngIf="product.badges.includes('sale')" class="product-card__badge product-card__badge--sale">Sale</div> -->
+        <div *ngIf="product.badges.includes('sale')" class="product-card__badge product-card__badge--sale">Sale</div>
         <div *ngIf="product.badges.includes('hot')" class="product-card__badge product-card__badge--hot">Hot</div>
         <div *ngIf="product.badges.includes('new')" class="product-card__badge product-card__badge--new">New</div>
     </div>
 
     <div class="product-card__image product-image">
         <a appClick [routerLink]="root.product(product)" *ngIf="product.images?.length" class="product-image__body">
-            <img class="product-image__img" [src]="'assets/images/product_images/' + product.images[0]" alt="">
+            <img class="product-image__img" [src]="product.images[0]" alt="">
         </a>
     </div>
     <div class="product-card__info">
         <div class="product-card__name" style="font-size: 14px;">
-            <a appClick [routerLink]="root.product(product)">{{ product.name }}</a>
+            <a appClick [routerLink]="root.product(product)"><strong>{{ product.name }}</strong></a>
+            <div class="product-card__rating" style="margin-bottom: 8px;">
+                <app-rating [value]="product.rating"></app-rating>
+                <div class="product-card__rating-legend">{{ product.reviews }} Reviews</div>
+            </div>
+            <p class="product-card__text">{{ product.short_desc }}</p>
         </div>
-        <!--<div class="product-card__rating">
-            <app-rating [value]="product.rating"></app-rating>
-            <div class="product-card__rating-legend">{{ product.reviews }} Reviews</div>
-        </div>-->
-        <ul *ngIf="featuredAttributes.length" class="product-card__features-list">
+        <!-- <div class="product-card__buttons">
+            <button class="btn btn-primary product-card__addtocart" type="button" appClick [routerLink]="'../' + root.product(product)" [ngClass]="{'btn-loading': addingToCart}">View Details</button>
+            <button class="btn btn-secondary product-card__addtocart product-card__addtocart--list" type="button" appClick [routerLink]="'../' + root.product(product)" [ngClass]="{'btn-loading': addingToCart}">View Details</button>
+            <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist" type="button" appClick (click)="addToWishlist()" [ngClass]="{'btn-loading': addingToWishlist}">
+                <app-icon name="wishlist-16" size="16"></app-icon>
+                <span class="fake-svg-icon fake-svg-icon--wishlist-16"></span>
+            </button>
+            <button class="btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__compare" type="button" appClick (click)="addToCompare()" [ngClass]="{'btn-loading': addingToCompare}">
+                <app-icon name="compare-16" size="16"></app-icon>
+                <span class="fake-svg-icon fake-svg-icon--compare-16"></span>
+            </button>
+        </div> -->
+        <!-- <ul *ngIf="featuredAttributes.length" class="product-card__features-list">
             <li *ngFor="let attribute of featuredAttributes">
                 {{ attribute.name }}:
                 <ng-container *ngFor="let value of attribute.values; let last = last">
                     {{ value.name }}<ng-container *ngIf="!last">, </ng-container>
                 </ng-container>
             </li>
-        </ul>
+        </ul> -->
     </div>
     <div class="product-card__actions">
         <div class="product-card__platformType">
@@ -52,7 +65,7 @@
             <span *ngIf="product.platform === 'Tableau'" class="text-small" style="font-size: 10px; font-weight: bold; position: relative;
             bottom: 10px;">Tableau</span>
         </div>
-        <!--<div class="product-card__prices">
+        <!-- <div class="product-card__prices">
             <ng-container *ngIf="product.compareAtPrice">
                 <span class="product-card__new-price">{{ product.price|currencyFormat }}</span>{{ ' ' }}
                 <span class="product-card__old-price">{{ product.compareAtPrice|currencyFormat }}</span>
@@ -60,7 +73,7 @@
             <ng-container *ngIf="!product.compareAtPrice">
                 {{ product.price|currencyFormat }}
             </ng-container>
-        </div>-->
+        </div> -->
         <div class="product-card__buttons">
             <button class="btn btn-primary product-card__addtocart" type="button" appClick [routerLink]="'../' + root.product(product)" [ngClass]="{'btn-loading': addingToCart}">View Details</button>
             <button class="btn btn-secondary product-card__addtocart product-card__addtocart--list" type="button" appClick [routerLink]="'../' + root.product(product)" [ngClass]="{'btn-loading': addingToCart}">View Details</button>

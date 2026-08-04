@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { MockServiceNowInterceptor } from './@shared/interceptor/mock-servicenow.interceptor';
 import { environment } from "../environments/environment";
 
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
@@ -39,6 +40,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { ZoomScaleComponent } from './@components/zoom-scale/zoom-scale.component';
 import { AppComponent } from './app.component';
 import { RootComponent } from './@components/root/root.component';
+import { PeopleService } from './@shared/services/people.service';
+import { MockPeopleService } from './@shared/interceptor/people.service.mock';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -155,6 +158,15 @@ export const msalGuardConfig: {
     }),
   ],
   providers: [
+    { 
+      provide: HTTP_INTERCEPTORS, 
+      useClass: MockServiceNowInterceptor, 
+      multi: true 
+    },
+    { 
+      provide: PeopleService, 
+      useClass: MockPeopleService 
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MsalInterceptor,

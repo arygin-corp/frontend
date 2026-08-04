@@ -1,1 +1,11 @@
-<p>page-feature-post-details works!</p>
+<div class="container post-details" *ngIf="post">
+  <button type="button" class="back" (click)="back()">← Back</button>
+
+  <header class="post-header">
+    <img class="post-image" [src]="post.image" [alt]="post.title" />
+    <h1 class="post-title">{{ post.title }}</h1>
+    <p class="meta">By {{ post.author }} • {{ post.date }}</p>
+  </header>
+
+  <section class="post-content" [innerHTML]="safeContent"></section>
+</div>

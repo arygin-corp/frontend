@@ -1,13 +1,13 @@
-<!-- <div class="container py-5 text-center">
+<div class="container py-5 text-center">
     <h2>Hi, {{ appSvc?.userData?.givenName }} {{ appSvc?.userData?.surname }}</h2>
     <h2>Request Submitted Successfully!</h2>
     <p class="text-muted">Your requests have been partitioned and sent to the respective fulfillment queues.</p>
 
-    <div class="row mt-5 text-start justify-content-center"> -->
+    <div class="row mt-5 text-start justify-content-center">
 
-        <!-- <div class="col-md-5 mx-2 card p-0 border-primary" *ngIf="receipt?.ritm"> -->
+        <div class="col-md-5 mx-2 card p-0 border-primary" *ngIf="receipt?.ritm">
 
-        <!-- <div class="col-md-12 mx-2 card p-0 border-primary">   
+        <div class="col-md-12 mx-2 card p-0 border-primary">   
             <div class="card-header bg-primary text-white">
                 <i class="ri-shield-user-line me-2"></i>Data Access Request Entitlements (Engine A)
             </div>
@@ -22,11 +22,11 @@
                     <li>Access is usually granted within 24-48 hours.</li>
                 </ul>
             </div>
-        </div> -->
+        </div>
 
-        <!-- <div class="col-md-5 mx-2 card p-0 border-dark" *ngIf="receipt?.stagingId"> -->
+        <div class="col-md-5 mx-2 card p-0 border-dark" *ngIf="receipt?.stagingId">
 
-        <!-- <div class="col-md-12 mx-2 card p-0 border-dark">
+        <div class="col-md-12 mx-2 card p-0 border-dark">
             <div class="card-header bg-dark text-white">
                 <i class="ri-database-2-line me-2"></i> Product Onboarding (Engine B)
             </div>
@@ -47,7 +47,7 @@
     <div class="mt-5">
         <button routerLink="/" class="btn btn-secondary btn-lg">Back to Marketplace</button>
     </div>
-</div> -->
+</div>
 
 <div class="block order-success">
     <div class="container">
@@ -137,21 +137,27 @@
                         <thead class="order-list__header">
                             <tr>
                                 <th class="order-list__column-label" colspan="2">Product</th>
+                                <th class="order-list__column-total text-center">Domain</th>
+                                <th class="order-list__column-total text-center">Datatype</th>
+                                <th class="order-list__column-total text-center">Classification</th>
                                 <th class="order-list__column-quantity">Qty</th>
                                 <th class="order-list__column-total">Total</th>
                             </tr>
                         </thead>
                         <tbody class="order-list__products">
                             <tr *ngFor="let item of receipt?.items">
-                                <td class="order-list__column-image">
+                                <td class="order-list__column-image" style="padding: 0px 32px 0 32px;">
                                     <div class="product-image">
-                                        <img class="product-image__img" [src]="'assets/images/product_images' + item.product.image" alt="">
+                                        <img [src]="getProductImage(item.product.image)" width="80" alt="item.product.name">
                                     </div>
                                 </td>
-                                <td class="order-list__column-product">
+                                <td class="order-list__column-product" style="padding-left: 19px !important;">
                                     <strong>{{ item.product.name }}</strong>
                                     <div class="text-muted small">Standard Onboarding</div>
                                 </td>
+                                <td class="order-list__column-total text-center">{{ item.product.domain }}</td>
+                                <td class="order-list__column-total text-center">{{ item.product.datatype }}</td>
+                                <td class="order-list__column-total text-center">{{ item.product.classification }}</td>
                                 <td class="order-list__column-quantity">1</td>
                                 <td class="order-list__column-total">{{ 0 | currencyFormat }}</td>
                             </tr>
@@ -165,19 +171,36 @@
                     <table *ngIf="activeTab === 'dars'">
                         <thead class="order-list__header">
                             <tr>
-                                <th class="order-list__column-label">Access Request Details</th>
+                                <th class="order-list__column-label" colspan="2">Data Access Request</th>
+                                <th class="order-list__column-total text-center">Domain</th>
+                                <th class="order-list__column-total text-center">Platform</th>
+                                <th class="order-list__column-total text-center">Environment</th>
+                                <th class="order-list__column-total text-center">PI</th>
+                                <th class="order-list__column-total text-center">SPI</th>
+                                <th class="order-list__column-quantity">Qty</th>
                                 <th class="order-list__column-total text-end">Total</th>
                             </tr>
                         </thead>
-                        <tbody class="order-list__products">
+                        <tbody class="order-list__products">                            
                             <tr *ngFor="let dar of receipt?.darRequests">
-                                <td class="order-list__column-product">
-                                    <strong>Data Access Request</strong>
-                                    <div class="text-muted small">
-                                        Platform: {{ dar.v_dar_platform }} | Domain: {{ dar.v_dar_dataDomainSelect }}
+                                <td class="order-list__column-image" style="padding: 0px 32px 0 32px;">
+                                    <div class="product-image">
+                                        <img src="assets/images/product_images/data-access-request.jpg" width="80" alt="Data Access Request" />
                                     </div>
                                 </td>
-                                <td class="order-list__column-total text-end">{{ 0 | currencyFormat }}</td>
+                                <td class="order-list__column-product" style="padding-left: 19px !important;">
+                                    <strong>Data Access Request</strong>
+                                    <div class="text-muted text-danger small">
+                                        <strong>Note: </strong> We will provide the annouce ment here!
+                                    </div>
+                                </td>
+                                <td class="order-list__column-total text-center">{{ dar.v_dar_dataDomainSelect }}</td>
+                                <td class="order-list__column-total text-center">{{ formatPlatform(dar.v_dar_platform) }}</td>
+                                <td class="order-list__column-total text-center">{{ dar.v_dar_environment }}</td>
+                                <td class="order-list__column-total text-center">{{ formatOrNA(dar.v_dar_pi) }}</td>
+                                <td class="order-list__column-total text-center">{{ formatOrNA(dar.v_dar_spi) }}</td>
+                                <td class="order-list__column-quantity">1</td>
+                                <td class="order-list__column-total">{{ 0 | currencyFormat }}</td>
                             </tr>
                             <tr *ngIf="!receipt?.darRequests?.length">
                                 <td colspan="2" class="text-center py-4 text-muted">No DARs in this request.</td>

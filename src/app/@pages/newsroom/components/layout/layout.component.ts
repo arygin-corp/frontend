@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class LayoutComponent {
     links: {label: string; url: string}[] = [
-        {label: 'Newsroom', url: './'},
+        {label: 'All', url: './'},
         {label: 'Updates', url: './updates'},
         {label: 'Features', url: './features'},
         {label: 'Trending', url: './trending'},

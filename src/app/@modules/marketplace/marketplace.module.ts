@@ -23,7 +23,7 @@ import { ShopSidebarComponent } from './components/shop-sidebar/shop-sidebar.com
 
 // pages
 import { PageCartComponent } from './pages/page-cart/page-cart.component';
-import { PageDomainComponent } from './pages/page-domain/page-domain.component';
+import { PageMarketplaceComponent } from './pages/page-marketplace/page-marketplace.component';
 import { PageCheckoutComponent } from './pages/page-checkout/page-checkout.component';
 import { PageCompareComponent } from './pages/page-compare/page-compare.component';
 import { PageProductComponent } from './pages/page-product/page-product.component';
@@ -41,7 +41,7 @@ import { PageRequestFormComponent } from './pages/page-request-form/page-request
         ShopSidebarComponent,
         // pages
         PageCartComponent,
-        PageDomainComponent,
+        PageMarketplaceComponent,
         PageCheckoutComponent,
         PageCompareComponent,
         PageProductComponent,
@@ -58,7 +58,7 @@ import { PageRequestFormComponent } from './pages/page-request-form/page-request
         ShopSidebarComponent,
         // pages
         PageCartComponent,
-        PageDomainComponent,
+        PageMarketplaceComponent,
         PageCheckoutComponent,
         PageCompareComponent,
         PageProductComponent,

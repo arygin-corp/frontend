@@ -4,14 +4,15 @@ import { RootComponent } from './@components/root/root.component';
 import { LandingPageComponent } from './@pages/landing-page/landing-page.component';
 import { PageNotFoundComponent } from './@pages/error-pages/page-not-found/page-not-found.component';
 import { MsalGuard } from "@azure/msal-angular";
+import { DomainsComponent } from './@pages/domains/domains.component';
 
 const routes: Routes = [
-    // 1. Unprotected / External Routes
-    { 
-        path: 'landing', 
-        component: LandingPageComponent 
-    },
-
+    // 1. Pprotected
+    // { 
+    //     path: '', 
+    //     component: DomainsComponent, 
+    //     canActivate: [MsalGuard],
+    // },
     // 2. Main Application Wrapper (Protected)
     {   
         path: '',
@@ -34,7 +35,6 @@ const routes: Routes = [
                 path: 'docs/protected',
                 loadChildren: () => import('./@docs/docs.module').then(m => m.DocsModule)
             },
-
             /**
              * 4. MAIN MODULES
              */
@@ -70,7 +70,7 @@ const routes: Routes = [
                 path: 'resources', 
                 loadChildren: () => import('./@pages/resources/resources.module').then(m => m.ResourcesModule)
             },
-             {
+            {
                 path: '',
                 loadChildren: () => import('./@pages/domains/domains.module').then(m => m.DomainsModule)
             },
@@ -102,88 +102,3 @@ const routes: Routes = [
 })
 
 export class AppRoutingModule { }
-
-
-// import { NgModule } from '@angular/core';
-// import { Routes, RouterModule } from '@angular/router';
-// import { RootComponent } from './@components/root/root.component'; 
-// import { LandingPageComponent } from './@pages/landing-page/landing-page.component';
-// import { PageNotFoundComponent } from './@pages/error-pages/page-not-found/page-not-found.component';
-// import { MsalGuard } from "@azure/msal-angular";
-
-// const routes: Routes = [
-//     { path: 'landing', component: LandingPageComponent },
-//     {   
-//         path: '',
-//         component: RootComponent,
-//         canActivate: [MsalGuard],
-//         data: { headerLayout: 'classic', dropcartType: 'offcanvas' },
-//         children: [
-//             // 1. STATIC MODULES (Check these first)
-//             {
-//                 path: 'marketplace',
-//                 loadChildren: () => import('./@modules/marketplace/marketplace.module').then(m => m.MarketplaceModule)
-//             },
-//             {
-//                 path: 'newsroom',
-//                 loadChildren: () => import('./@pages/newsroom/newsroom.module').then(m => m.NewsroomModule)
-//             },
-//             {
-//                 path: 'form',
-//                 loadChildren: () => import('./@pages/forms2/forms2.module').then(m => m.Forms2Module)
-//             },
-//             {
-//                 path: 'blog',
-//                 loadChildren: () => import('./@modules/blog/blog.module').then(m => m.BlogModule)
-//             },
-//             {
-//                 path: 'changelog',
-//                 loadChildren: () => import('./@modules/changelog/changelog.module').then(m => m.ChangelogModule)
-//             },
-//             {
-//                 path: 'pages',
-//                 loadChildren: () => import('./@pages/pages.module').then(m => m.PagesModule)
-//             },
-//             {
-//                 path: 'site',
-//                 loadChildren: () => import('./@modules/site/site.module').then(m => m.SiteModule)
-//             },
-//             {
-//                 path: 'docs/protected',
-//                 loadChildren: () => import('./@docs/docs.module').then(m => m.DocsModule)
-//             },
-//             {
-//                 path: 'resources', 
-//                 loadChildren: () => import('./@pages/resources/resources.module').then(m => m.ResourcesModule)
-//             },
-//             {
-//                 path: 'marketplace/user',
-//                 loadChildren: () => import('./@user/user.module').then(m => m.UserModule)
-//             },
-//             // 2. DYNAMIC CATCH-ALL (Check these only if no static match is found)
-//             {
-//                 path: 'marketplace/domains',
-//                 loadChildren: () => import('./@pages/domains/domains.module').then(m => m.DomainsModule)
-//             },
-
-//             // 3. FINAL FALLBACK
-//             {
-//                 path: '**',
-//                 component: PageNotFoundComponent
-//             }
-//         ],
-//     },
-// ];
-
-// @NgModule({
-//     imports: [
-//         RouterModule.forRoot(routes, {
-//             scrollPositionRestoration: 'enabled',
-//             anchorScrolling: 'enabled',
-//             initialNavigation: 'enabled',
-//             relativeLinkResolution: 'legacy'
-//         })
-//     ],
-//     exports: [RouterModule]
-// })
-// export class AppRoutingModule { }

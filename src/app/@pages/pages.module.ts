@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 //modules
+import { FormsModule } from '@angular/forms';
 import { Forms2Module } from './forms2/forms2.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { SharedModule } from '../@shared/shared.module';
@@ -34,6 +35,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
   imports: [
     CommonModule,
     PagesRoutingModule,
+    FormsModule,
     Forms2Module,
     SharedModule,
     CarouselModule,

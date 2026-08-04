@@ -63,12 +63,23 @@ export class CartService {
         }
     }
 
-     /**
-     * Stores the receipt data so it persists after the cart is cleared
-     */
+    /**
+    * Stores the receipt data so it persists after the cart is cleared
+    */
     public setReceipt(data: any): void {
         this.lastReceipt = data;
+        if (isPlatformBrowser(this.platformId)) {
+            try {
+                sessionStorage.setItem('lastReceipt', JSON.stringify(data));
+            } catch (e) {
+                // ignore storage errors
+            }
+        }
     }
+
+    // public setReceipt(data: any): void {
+    //     this.lastReceipt = data;
+    // }
 
     public loadFromStorage(): void {
         if (isPlatformBrowser(this.platformId)) {
@@ -119,11 +130,33 @@ export class CartService {
 
     // Restored for PageOrderSuccessComponent
     getReceipt() {
+        if (this.lastReceipt) {
+            return this.lastReceipt;
+        }
+
+        if (isPlatformBrowser(this.platformId)) {
+            const stored = sessionStorage.getItem('lastReceipt');
+            if (stored) {
+                try {
+                    return JSON.parse(stored);
+                } catch (e) {
+                    // fallback
+                }
+            }
+        }
+
         return {
             items: this.data.items,
             darRequests: this.data.darRequests
         };
     }
+
+    // getReceipt() {
+    //     return {
+    //         items: this.data.items,
+    //         darRequests: this.data.darRequests
+    //     };
+    // }
 
     add(product: Product, quantity: number, options: any[] = [], formData?: any): Observable<CartItem> {
         let item = this.data.items.find(i => i.product.id === product.id);

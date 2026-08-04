@@ -28,6 +28,7 @@ import { TouchClickDirective } from './directives/touch-click.directive';
 
 // components
 import { AlertComponent } from './components/alert/alert.component';
+import { ChatComponent } from './components/chat/chat.component';
 import { IconComponent } from './components/icon/icon.component';
 import { InputNumberComponent } from './components/input-number/input-number.component';
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
@@ -57,7 +58,6 @@ import { AbsoluteUrlPipe } from './pipes/absolute-url.pipe';
 import { ColorTypePipe } from './pipes/color-type.pipe';
 import { CurrencyFormatPipe } from './pipes/currency-format.pipe';
 import { HighlightPipe } from './pipes/highlight.pipe';
-import { ChatComponent } from './components/chat/chat.component';
 import { AiBrainComponent } from './components/ai-brain/ai-brain.component';
   
 @NgModule({
@@ -76,6 +76,7 @@ import { AiBrainComponent } from './components/ai-brain/ai-brain.component';
         TouchClickDirective,
         // components
         AlertComponent,
+        ChatComponent,
         IconComponent,
         InputNumberComponent,
         LoadingBarComponent,
@@ -136,6 +137,7 @@ import { AiBrainComponent } from './components/ai-brain/ai-brain.component';
         TouchClickDirective,
         // components
         AlertComponent,
+        ChatComponent,
         IconComponent,
         InputNumberComponent,
         LoadingBarComponent,

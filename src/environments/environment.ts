@@ -48,13 +48,14 @@ export const environment = {
     // submittedOrderLogs: "https://api-stage.data.toyota.com/veiw/endpoint/order/logs/audit/",
   },
   serviceNow: {
-    auth: "RE1QIFN1YiBQcm9kOiE5PHdEbmhfZ3ZeYWJNQG1MIzY2QE0qaVVQQ0pvKDRrI1A/NGVFXXE=",
-    baseURL: "https://tmnatest.service-now.com/api",
-    addToCart: "https://tmnatest.service-now.com/api/sn_sc/servicecatalog/items/9a51d2dd1b03c490d96b11b92a4bcb99/add_to_cart",
-    orderNow: "https://tmnatest.service-now.com/api/sn_sc/servicecatalog/items/9a51d2dd1b03c490d96b11b92a4bcb99/order_now",
-    submitOrder: "https://tmnatest.service-now.com/api/sn_sc/servicecatalog/cart/submit_dar_order",
-    upload: "https://tmnatest.service-now.com/api/now/attachment/upload",
+    auth: "PLACEHOLDER_BASE64",
+    baseURL: "",
+    addToCart: "",
+    orderNow: "",
+    submitOrder: 'http://localhost:3000/submitOrder',
+    upload: "",
   },
+  useMockServiceNow: true,
   microsoft: {
     graphAPI: "https://graph.microsoft.com/v1.0/me?$select=id,accountEnabled,displayName,givenName,surname,jobTitle,userPrincipalName,mail,businessPhones,officeLocation,employeeId,department,companyName,streetAddress,city,state,postalCode,country,extension_f9db8ce126544afb895293c1adb4b749_extensionAttribute3",
   }

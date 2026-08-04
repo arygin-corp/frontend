@@ -223,7 +223,7 @@ export class RequestAccessComponent implements OnChanges {
     }
 
     private syncWithServiceNow(formData: any) {
-        const url = environment.serviceNow.addToCart || `https://tmnatest.service-now.com/api/sn_sc/servicecatalog/items/9a51d2dd1b03c490d96b11b92a4bcb99/add_to_cart`;
+        const url = environment.serviceNow.addToCart;
         const headers = new HttpHeaders({
             'Authorization': 'Basic ' + environment.serviceNow.auth,
             'Content-Type': 'application/json'
@@ -238,48 +238,72 @@ export class RequestAccessComponent implements OnChanges {
     // Ensure the submit method matches the HTML (addToCart)
     // and sends data to the unified CartService
     addToCart(): void {
-        if (this.product && this.form.valid) {
-            const isAlreadyInCart = this.cart.items.some(item => item.product.id === this.product.id);
+        if (!(this.product && this.form.valid)) {
+            this.validateAllFormFields(this.form);
+            return;
+        }
 
-            if (!this.itemToEdit && isAlreadyInCart) {
-                this.appSvc.notifyInfo?.(`"${this.product.name}" is already in your cart.`);
-                this.state.close();
-                return;
-            }
+        const isAlreadyInCart = this.cart.items.some(item => item.product.id === this.product.id);
+        if (!this.itemToEdit && isAlreadyInCart) {
+            this.appSvc.notifyInfo?.(`"${this.product.name}" is already in your cart.`);
+            this.state.close();
+            return;
+        }
 
-            this.addingToCart = true;
-            // Use getRawValue() to include disabled fields like v_dar_userType
-            const formData = this.form.getRawValue();
+        this.addingToCart = true;
+        const formData = this.form.getRawValue();
 
-            // Step 1: Post to ServiceNow
-            this.syncWithServiceNow(formData).subscribe({
-                next: (snResponse) => {
-                    console.log('ServiceNow sync success:', snResponse);
-                    
-                    // Step 2: Add to local cart if ServiceNow call succeeds
-                    this.cart.add(this.product, 1, [], formData).subscribe({
-                        next: () => {
-                            const msg = this.itemToEdit ? `Changes saved.` : `"${this.product.name}" added to cart.`;
-                            this.appSvc.notifySuccess?.(msg);
-                        },
-                        complete: () => {
-                            this.addingToCart = false;
-                            this.state.close();
-                            this.itemToEdit = null; 
-                            this.form.reset({ requesting_id: 'Me' });
-                        },
-                        error: () => this.addingToCart = false
-                    });
+        // Local dev detection: force local-only behavior when not production
+        const host = window.location.hostname || '';
+        const isLocalhost = host === 'localhost' || host === '127.0.0.1' || host === '::1' || host.includes('local');
+        const forcedMock = !!((environment as any).useMockServiceNow) || !environment.production;
+        const useLocalOnly = isLocalhost || forcedMock;
+
+        if (useLocalOnly) {
+            // LOCAL: skip any ServiceNow API call and add directly to local cart
+            this.cart.add(this.product, 1, [], formData).subscribe({
+                next: () => {
+                    const msg = this.itemToEdit ? `Changes saved.` : `"${this.product.name}" added to cart.`;
+                    this.appSvc.notifySuccess?.(msg);
                 },
-                error: (err) => {
-                    console.error('ServiceNow sync error:', err);
-                    this.appSvc.notifyError?.('Failed to sync with ServiceNow. Please try again.');
+                complete: () => {
                     this.addingToCart = false;
+                    this.state.close();
+                    this.itemToEdit = null;
+                    this.form.reset({ requesting_id: 'Me' });
+                },
+                error: () => {
+                    this.addingToCart = false;
+                    this.appSvc.notifyError?.('Failed to add to local cart.');
                 }
             });
-        } else {
-            this.validateAllFormFields(this.form);
+            return;
         }
+
+        // PRODUCTION / REAL flow: keep original ServiceNow sync logic
+        // this.syncWithServiceNow(formData).subscribe({
+        //     next: (snResponse) => {
+        //     console.log('ServiceNow sync success:', snResponse);
+        //     this.cart.add(this.product, 1, [], formData).subscribe({
+        //         next: () => {
+        //         const msg = this.itemToEdit ? `Changes saved.` : `"${this.product.name}" added to cart.`;
+        //         this.appSvc.notifySuccess?.(msg);
+        //         },
+        //         complete: () => {
+        //         this.addingToCart = false;
+        //         this.state.close();
+        //         this.itemToEdit = null;
+        //         this.form.reset({ requesting_id: 'Me' });
+        //         },
+        //         error: () => this.addingToCart = false
+        //     });
+        //     },
+        //     error: (err) => {
+        //     console.error('ServiceNow sync error:', err);
+        //     this.appSvc.notifyError?.('Failed to sync with ServiceNow. Please try again.');
+        //     this.addingToCart = false;
+        //     }
+        // });
     }
 
     updateRequest(): void {

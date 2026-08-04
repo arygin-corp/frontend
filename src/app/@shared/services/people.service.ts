@@ -2,7 +2,7 @@ import { Injectable, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { FormBuilder, FormControl } from '@angular/forms';
 
 export interface User {
@@ -42,6 +42,7 @@ export class PeopleService {
         nextLink: '',
         value: []
     };
+  getUsersObservable: any;
 
     constructor(
         private http: HttpClient,

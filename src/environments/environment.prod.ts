@@ -47,6 +47,7 @@ export const environment = {
     // submittedCartLogs: "https://api.data.toyota.com/view/endpoint/cart/logs/audit",
     // submittedOrderLogs: "https://api.data.toyota.com/veiw/endpoint/order/logs/audit/",
   },
+  useMockServiceNow: false,
   serviceNow: {
     auth: "RE1QIFN1YiBQcm9kOiE5PHdEbmhfZ3ZeYWJNQG1MIzY2QE0qaVVQQ0pvKDRrI1A/NGVFXXE=",
     baseURL: "https://tmna.service-now.com/api",

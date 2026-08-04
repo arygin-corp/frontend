@@ -1,6 +1,6 @@
 <div class="products-view" [ngClass]="{'products-view--loading': this.pageService.isLoading$|async}" [formGroup]="listOptionsForm">
     <div class="products-view__loader"></div>
-
+    
     <div *ngIf="pageService.items?.length" class="products-view__content">
         <div class="products-view__options">
             <div class="view-options" [ngClass]="{
@@ -16,14 +16,15 @@
                 <div class="view-options__layout">
                     <div class="layout-switcher">
                         <div class="layout-switcher__list">
-                            <button title="Grid" type="button" class="layout-switcher__button"
-                                    [ngClass]="{'layout-switcher__button--active': layout === 'grid'}" (click)="setLayout('grid')">
-
+                            <button title="Grid 4 Columns" type="button" class="layout-switcher__button"
+                                    [ngClass]="{'layout-switcher__button--active': grid === 'grid-4-full'}"
+                                    (click)="setViewMode('grid-4-full')">
                                 <app-icon name="layout-grid-16x16" size="16"></app-icon>
                             </button>
-                            <button title="Grid With Features" type="button" class="layout-switcher__button"
-                                    [ngClass]="{'layout-switcher__button--active': layout === 'grid-with-features'}" (click)="setLayout('grid-with-features')">
 
+                            <button title="Grid With Features" type="button" class="layout-switcher__button"
+                                    [ngClass]="{'layout-switcher__button--active': layout === 'grid-with-features'}"
+                                    (click)="setViewMode('grid-with-features')">
                                 <app-icon name="layout-grid-with-details-16x16" size="16"></app-icon>
                             </button>
                             <button title="List" type="button" class="layout-switcher__button"

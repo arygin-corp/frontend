@@ -73,8 +73,8 @@ export interface Product {
     classification: string;
     catalog: string;
     intended_use: string;
-    data_steward: string;
-    poc_name: string;
+    data_steward?: string;
+    poc_name?: string;
     business_contact_name: string;
     business_sme: string;
     resource: string;
@@ -88,7 +88,7 @@ export interface Product {
     org: Organization|null;
     keywords: Keyword[];
     attributes: ProductAttribute[];
-    one_ts_domain
+    one_ts_domain: string;
     rating: number;
     reviews: number;
     platform: string;

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { NewsroomService } from '../../../../@shared/services/newsroom.service';
+import { Newsroom } from '../../../../@shared/interfaces/newsroom';
 
 @Component({
   selector: 'app-page-feature-post',
@@ -6,10 +9,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./page-feature-post.component.scss']
 })
 export class PageFeaturePostComponent implements OnInit {
+  posts: Newsroom[] = [];
 
-  constructor() { }
+  constructor(
+    private newsroomService: NewsroomService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
+    this.posts = this.newsroomService.getNewsroom().filter(p => p.category === 'features');
   }
 
+  openDetails(post: Newsroom) {
+    this.router.navigate(['feature', 'details', post.id], { relativeTo: this.route });
+  }
 }

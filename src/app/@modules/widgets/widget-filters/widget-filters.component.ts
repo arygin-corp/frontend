@@ -13,7 +13,7 @@ import {
 } from '../../../@shared/interfaces/filter';
 import { RootService } from '../../../@shared/services/root.service';
 import { EMPTY, merge, of, Subject } from 'rxjs';
-import { PageDomainService } from '../../marketplace/services/page-domain.service';
+import { PageMarketplaceService } from '../../marketplace/services/page-marketplace.service';
 import { distinctUntilChanged, map, skip, takeUntil } from 'rxjs/operators';
 
 interface FormFilterValues {
@@ -40,7 +40,7 @@ export class WidgetFiltersComponent implements OnInit, OnDestroy {
         private direction: DirectionService,
         private fb: FormBuilder,
         public root: RootService,
-        public pageDomain: PageDomainService,
+        public pageDomain: PageMarketplaceService,
     ) {
         this.rightToLeft = this.direction.isRTL();
     }

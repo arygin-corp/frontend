@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-//modules
+import { RouterModule } from '@angular/router';
 import { SharedModule } from '../../@shared/shared.module';
 import { NewsroomRoutingModule } from './newsroom-routing.module';
-//components
 import { LayoutComponent } from './components/layout/layout.component';
 import { NewsroomComponent } from './newsroom.component';
 import { PageFeaturePostComponent } from './pages/page-feature-post/page-feature-post.component';
@@ -42,9 +41,9 @@ import { PageSecurityPostDetailsComponent } from './pages/page-security-post-det
   ],
   imports: [
     CommonModule,
+    RouterModule,
     NewsroomRoutingModule,
     SharedModule
   ]
 })
-
 export class NewsroomModule { }

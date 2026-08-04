@@ -15,10 +15,10 @@
 
     <div class="dashboard__profile card profile-card">
         <div class="card-body profile-card__body">
-            <div class="profile-card__avatar">
-                <!-- <img *ngIf="userPhotoUrl; else noImageFound" [src]="userPhotoUrl" alt="{{ appSvc?.userData?.givenName }} {{ appSvc?.userData?.surname }}" style="width: 100%;max-width: 90px;"/> -->
+            <div class="profile-card__avatar2">
+                <img *ngIf="photo; else noImageFound" [src]="photo" alt="{{ appSvc?.userData?.givenName }} {{ appSvc?.userData?.surname }}" style="width: 100%;max-width: 118px; border-radius: 100px;"/>
                 <ng-template #noImageFound>
-                    <ngx-avatar size="90" bgColor="#222" fgColor="#04fdff" name="{{ appSvc?.userData?.givenName }} {{ appSvc?.userData?.surname }} "></ngx-avatar>
+                    <ngx-avatar size="118" bgColor="#222" fgColor="#04fdff" name="{{ appSvc?.userData?.givenName }} {{ appSvc?.userData?.surname }} "></ngx-avatar>
                 </ng-template>
             </div>
             <div class="profile-card__name" style="font-weight: 700;">{{ appSvc?.userData?.givenName }} {{ appSvc?.userData?.surname }}</div>

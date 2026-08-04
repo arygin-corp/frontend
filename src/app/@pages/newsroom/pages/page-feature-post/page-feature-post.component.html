@@ -1,14 +1,23 @@
-<div class="container">
-  <header>
-    <section class="hero-banner">
-      <div class="hero-image"></div>
-    </section>
-  </header>
-  <main>
-    <article class="text-info">
-      <p style="color: #363636;">Hello friends! We are currently building our new pages and features.</p><br>
-      <h2><strong>NEWSROOM</strong><span style="font-weight: 200;"> FEATURES</span></h2> 
-      <h2>Page is Coming Soon</h2><br><br>
+<div class="newsroom-layout container">
+  <main class="news-list">
+    <div *ngIf="posts.length === 0" class="empty">
+      <p>No posts found.</p>
+    </div>
+
+    <article *ngFor="let post of posts" class="news-item">
+      <a (click)="openDetails(post)">
+        <div class="thumb" [style.background-image]="'url(' + post.image + ')'"></div>
+        <div class="body">
+          <h3>{{ post.title }}</h3>
+          <p class="summary" [innerHTML]="post.summary"></p>
+          <div class="meta">
+            <span class="author">{{ post.author }}</span>
+            <span class="dot">•</span>
+            <span class="date">{{ post.date }}</span>
+            <span class="category">{{ post.category }}</span>
+          </div>
+        </div>
+      </a>
     </article>
   </main>
 </div>
