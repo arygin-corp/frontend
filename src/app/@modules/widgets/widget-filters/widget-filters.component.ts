@@ -46,50 +46,102 @@ export class WidgetFiltersComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        let formInitialized = false;
+
         this.pageDomain.list$.pipe(
             map(x => x?.filters || []),
             takeUntil(this.destroy$),
         ).subscribe(filters => {
             this.filters = filters;
-            this.filtersForm = this.makeFiltersForm(filters);
 
-            filters.forEach(filter => {
-                switch (filter.type) {
-                    case 'range':
-                        merge(
-                            of([
-                                Math.max(filter.value[0], filter.min),
-                                Math.min(filter.value[1], filter.max)
-                            ]),
-                            this.filtersForm.get(filter.slug)?.valueChanges || EMPTY,
-                        ).pipe(
-                            distinctUntilChanged((a, b) => a.join('-') === b.join('-')),
-                            skip(1),
-                        ).subscribe(filterValue => {
-                            this.pageDomain.updateOptions({
-                                filterValues: this.convertFormToFilterValues(filters, {
-                                    ...this.filtersForm.value,
-                                    [filter.slug]: filterValue,
-                                }),
+            if (!formInitialized) {
+                formInitialized = true;
+                this.filtersForm = this.makeFiltersForm(filters);
+
+                filters.forEach(filter => {
+                    switch (filter.type) {
+                        case 'range':
+                            merge(
+                                of([
+                                    Math.max(filter.value[0], filter.min),
+                                    Math.min(filter.value[1], filter.max)
+                                ]),
+                                this.filtersForm.get(filter.slug)?.valueChanges || EMPTY,
+                            ).pipe(
+                                distinctUntilChanged((a, b) => a.join('-') === b.join('-')),
+                                skip(1),
+                            ).subscribe(filterValue => {
+                                this.pageDomain.updateOptions({
+                                    filterValues: this.convertFormToFilterValues(filters, {
+                                        ...this.filtersForm.value,
+                                        [filter.slug]: filterValue,
+                                    }),
+                                });
                             });
-                        });
-                        break;
-                    case 'radio':
-                    case 'check':
-                    case 'color':
-                        this.filtersForm.get(filter.slug)?.valueChanges.subscribe(filterValue => {
-                            this.pageDomain.updateOptions({
-                                filterValues: this.convertFormToFilterValues(filters, {
-                                    ...this.filtersForm.value,
-                                    [filter.slug]: filterValue,
-                                }),
+                            break;
+                        case 'radio':
+                        case 'check':
+                        case 'color':
+                            this.filtersForm.get(filter.slug)?.valueChanges.subscribe(filterValue => {
+                                this.pageDomain.updateOptions({
+                                    filterValues: this.convertFormToFilterValues(filters, {
+                                        ...this.filtersForm.value,
+                                        [filter.slug]: filterValue,
+                                    }),
+                                });
                             });
-                        });
-                        break;
-                }
-            });
+                            break;
+                    }
+                });
+            }
         });
     }
+
+    // ngOnInit(): void {
+    //     this.pageDomain.list$.pipe(
+    //         map(x => x?.filters || []),
+    //         takeUntil(this.destroy$),
+    //     ).subscribe(filters => {
+    //         this.filters = filters;
+    //         this.filtersForm = this.makeFiltersForm(filters);
+
+    //         filters.forEach(filter => {
+    //             switch (filter.type) {
+    //                 case 'range':
+    //                     merge(
+    //                         of([
+    //                             Math.max(filter.value[0], filter.min),
+    //                             Math.min(filter.value[1], filter.max)
+    //                         ]),
+    //                         this.filtersForm.get(filter.slug)?.valueChanges || EMPTY,
+    //                     ).pipe(
+    //                         distinctUntilChanged((a, b) => a.join('-') === b.join('-')),
+    //                         skip(1),
+    //                     ).subscribe(filterValue => {
+    //                         this.pageDomain.updateOptions({
+    //                             filterValues: this.convertFormToFilterValues(filters, {
+    //                                 ...this.filtersForm.value,
+    //                                 [filter.slug]: filterValue,
+    //                             }),
+    //                         });
+    //                     });
+    //                     break;
+    //                 case 'radio':
+    //                 case 'check':
+    //                 case 'color':
+    //                     this.filtersForm.get(filter.slug)?.valueChanges.subscribe(filterValue => {
+    //                         this.pageDomain.updateOptions({
+    //                             filterValues: this.convertFormToFilterValues(filters, {
+    //                                 ...this.filtersForm.value,
+    //                                 [filter.slug]: filterValue,
+    //                             }),
+    //                         });
+    //                     });
+    //                     break;
+    //             }
+    //         });
+    //     });
+    // }
 
     ngOnDestroy(): void {
         this.destroy$.next();

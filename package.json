@@ -12,7 +12,7 @@
   },
   "scripts": {
     "lint": "tslint ./src/**/*.ts -t verbose",
-    "start": "ng serve && node mock-servicenow-server.js",
+    "start": "ng serve",
     "start-mock": "node mock-servicenow-server.js",
     "test": "ng test",
     "e2e": "ng e2e",

@@ -44,20 +44,18 @@ export class SearchComponent implements OnInit, OnChanges, OnDestroy {
   @HostBinding('class.search--location--mobile-header') get classSearchLocationMobileHeader() { return this.location === 'mobile-header'; }
   @HostBinding('class.search--has-suggestions') get classSearchHasSuggestions() { return this.hasSuggestions; }
   @HostBinding('class.search--suggestions-open') classSearchSuggestionsOpen = false;
-
   private destroy$: Subject<void> = new Subject<void>();
   form!: FormGroup;
   isLoading = false;
   hasSuggestions = false;
-
   suggestedProducts: Partial<Product>[] = [];
   addedToCartProducts: Product[] = [];
   recentSearches: string[] = [];
-
   currentPage = 1;
   totalPages = 1;
   totalItems = 0;
   didYouMean: string | null = null;
+  Math = Math;
 
   get inputElement(): HTMLInputElement {
     return this.inputElementRef.nativeElement;
@@ -83,6 +81,7 @@ export class SearchComponent implements OnInit, OnChanges, OnDestroy {
   onPageChange(page: number): void {
     this.currentPage = page;
     this.runSearch();
+    this.openSuggestion();
   }
 
   applyFilters(): void {
@@ -97,67 +96,53 @@ export class SearchComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  // applyFilters(): void {
-  //   this.isLoading = true;
-  //   this.currentPage = 1;
-  //   this.executeSearch().subscribe({
-  //     next: (res) => {
-  //       this.handleResults(res);
-  //       this.isLoading = false;
-  //     },
-  //     error: () => this.isLoading = false
-  //   });
-  // }
-
   private initForm(): void {
     this.form = this.fb.group({
-      query: ['']
+        query: ['']
     });
 
     this.form.get('query')?.valueChanges.pipe(
-      map(v => (v || '').trim()),
-      debounceTime(150),               // faster responsiveness
-      distinctUntilChanged(),
-      tap(() => {
-        // show spinner immediately
-        this.isLoading = true;
-      }),
-      switchMap(q => {
-        if (!q || q.length < 1) {
-          this.isLoading = false;
-          this.hasSuggestions = false;
-          return of({ items: [], total_pages: 0, total_items: 0 });
-        }
-
-        // First try fast local client-side search
-        return this.shop.localSearch(q, 6).pipe(
-          switchMap(localRes => {
-            if (localRes.items && localRes.items.length > 0) {
-              return of({ items: localRes.items, total_pages: 1, total_items: localRes.items.length, did_you_mean: localRes.did_you_mean });
+        map(v => (v || '').trim()),
+        debounceTime(150),
+        distinctUntilChanged(),
+        tap(() => {
+          this.isLoading = true;
+          this.currentPage = 1;
+        }),
+        switchMap(q => {
+            if (!q || q.length < 1) {
+                this.isLoading = false;
+                this.hasSuggestions = false;
+                return of({ items: [], total_pages: 0, total_items: 0, did_you_mean: null });
             }
-            return this.shop.getSuggestions(q, 100, { page: 1 });
-          }),
-          catchError(() => of({ items: [], total_pages: 0, total_items: 0 }))
-        );
-      }),
-      takeUntil(this.destroy$)
+
+            return this.shop.localSearch(q, this.currentPage).pipe(
+              switchMap(localRes => {
+                  if (localRes.items && localRes.items.length > 0) {
+                      return of(localRes);
+                  }
+                  return this.shop.getSuggestions(q, 100, { page: 1 });
+              }),
+              catchError(() => of({ items: [], total_pages: 0, total_items: 0, did_you_mean: null }))
+            );
+        }),
+        takeUntil(this.destroy$)
     ).subscribe({
-      next: (res) => {
-        this.handleResults(res);
-      },
-      error: () => {
-        this.isLoading = false;
-      }
+        next: (res) => {
+            this.handleResults(res);
+        },
+        error: () => {
+            this.isLoading = false;
+        }
     });
   }
 
   private runSearch(): void {
     this.isLoading = true;
-    this.currentPage = 1;
 
-    this.executeSearch().subscribe(
-      (res) => this.handleResults(res),
-      () => this.isLoading = false
+    this.shop.localSearch(this.form.value.query, this.currentPage).subscribe(
+        (res) => this.handleResults(res),
+        () => this.isLoading = false
     );
   }
 
@@ -203,22 +188,22 @@ export class SearchComponent implements OnInit, OnChanges, OnDestroy {
       .replace(/[^\w\-]+/g, '')
       .replace(/\-\-+/g, '-');
   }
-
+  
   handleResults(res: any): void {
     this.isLoading = false;
     this.suggestedProducts = res.items || [];
     this.totalPages = res.total_pages || 1;
     this.totalItems = res.total_items || this.suggestedProducts.length;
+    this.currentPage = res.current_page || 1;
     this.didYouMean = res.did_you_mean || null;
     this.hasSuggestions = this.suggestedProducts.length > 0 || !!this.didYouMean;
     this.classSearchSuggestionsOpen = this.hasSuggestions;
     if (this.hasSuggestions) {
-      this.saveRecentSearch(this.form.value.query || '');
-      this.openSuggestion();
+        this.saveRecentSearch(this.form.value.query || '');
+        this.openSuggestion();
     } else {
-      this.closeSuggestion();
+        this.closeSuggestion();
     }
-    console.log('suggestedProducts', this.suggestedProducts);
   }
 
   trackByProductId(index: number, product: Partial<Product>): number {
@@ -244,7 +229,10 @@ export class SearchComponent implements OnInit, OnChanges, OnDestroy {
   private initExternalClickListeners(): void {
     this.zone.runOutsideAngular(() => {
       fromEvent(this.document, 'click').pipe(takeUntil(this.destroy$)).subscribe(event => {
-        if (!(event.target as HTMLElement).closest('.search')) {
+        const target = event.target as HTMLElement;
+        const isInsideSearch = target.closest('.search');
+        
+        if (!isInsideSearch) {
           this.zone.run(() => this.closeSuggestion());
         }
       });

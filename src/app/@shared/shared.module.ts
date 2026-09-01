@@ -28,7 +28,6 @@ import { TouchClickDirective } from './directives/touch-click.directive';
 
 // components
 import { AlertComponent } from './components/alert/alert.component';
-import { ChatComponent } from './components/chat/chat.component';
 import { IconComponent } from './components/icon/icon.component';
 import { InputNumberComponent } from './components/input-number/input-number.component';
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
@@ -51,7 +50,10 @@ import { InteractiveAiComponent } from './components/interactive-ai/interactive-
 import { ProductGalleryComponent } from './components/product-gallery/product-gallery.component';
 import { ProductPopoverComponent } from './components/product-popover/product-popover.component';
 import { ComingSoonComponent } from './components/coming-soon/coming-soon.component';
-
+//Vikki
+import { ChatComponent } from './components/chat/chat.component';
+import { ChatWidgetComponent } from './components/chat-widget/chat-widget.component';
+import { AskAIComponent } from './components/ask-a-i/ask-a-i.component';
 
 // pipes
 import { AbsoluteUrlPipe } from './pipes/absolute-url.pipe';
@@ -77,6 +79,8 @@ import { AiBrainComponent } from './components/ai-brain/ai-brain.component';
         // components
         AlertComponent,
         ChatComponent,
+        AskAIComponent,
+        ChatWidgetComponent,
         IconComponent,
         InputNumberComponent,
         LoadingBarComponent,
@@ -138,6 +142,8 @@ import { AiBrainComponent } from './components/ai-brain/ai-brain.component';
         // components
         AlertComponent,
         ChatComponent,
+        AskAIComponent,
+        ChatWidgetComponent,
         IconComponent,
         InputNumberComponent,
         LoadingBarComponent,

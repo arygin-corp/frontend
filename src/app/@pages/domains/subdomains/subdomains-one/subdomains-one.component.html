@@ -14,11 +14,10 @@
   No subdomains found for this category.
 </div>
 
-
 <div class="row p-2" *ngIf="!isLoading && subdomains.length">
   <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-xs-12 col-12 float-left mb-4" *ngFor="let subdomain of subdomains">
     <div class="card domain-cards mb-2">
-      <a [routerLink]="resolveNavigation(subdomain)">
+      <a [routerLink]="getRouterLink(subdomain)" (click)="!getRouterLink(subdomain) && navigateTo(subdomain); $event.stopPropagation()">
         <img
           class="card-img-top ie-image"
           [src]="subdomain.image"
@@ -28,8 +27,10 @@
         <h6 class="card-title d-block">{{subdomain.name}}</h6>
         <p class="card-text d-block font-weight-light">{{subdomain.desc}}</p>
         <a
-          [routerLink]="resolveNavigation(subdomain)"
-          class="btn btn-primary btn-sm align-right">View All</a>
+          [routerLink]="getRouterLink(subdomain)"
+          (click)="!getRouterLink(subdomain) && navigateTo(subdomain)"
+          class="btn btn-primary btn-sm align-right"
+          >View All</a>
       </div>
     </div>
   </div>

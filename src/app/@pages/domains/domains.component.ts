@@ -1,5 +1,5 @@
-// src/app/@pages/domains/domains.component.ts
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DomainsService } from './../../@shared/services/domains.service';
 import { Domain } from '../../../@models/domain.model';
 import { environment } from '../../../environments/environment';
@@ -14,7 +14,11 @@ export class DomainsComponent implements OnInit {
   domainData: Domain[] = [];
   isLoading = true;
   private baseUrl = environment.apiUrl;
-  constructor(private domainsService: DomainsService) {}
+  
+  constructor(
+    private domainsService: DomainsService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.domainsService.getDomains().subscribe({
@@ -24,7 +28,6 @@ export class DomainsComponent implements OnInit {
             ...domain,
             image: this.formatImageUrl(domain.image)
           }))
-          // Sort: Most products first
           .sort((a, b) => (b.product_count || 0) - (a.product_count || 0));
         
         this.isLoading = false;
@@ -47,32 +50,14 @@ export class DomainsComponent implements OnInit {
     return (domain as any).desc || (domain as any).description || `Explore products in ${domain.name}`;
   }
 
-  // resolveNavigation(domain: Domain): any[] {
-  //   if (domain.product_count === 1) {
-  //     const product = (domain as any).products?.[0];
-  //     const productSlug = product?.slug || product?.name?.toLowerCase().replace(/ /g, '-') || 'product';
-  //     return ['/marketplace/products', productSlug];
-  //   }
-    
-  //   const slug = domain.slug || domain.name.toLowerCase().replace(/ /g, '-');
-  //   return [slug];
-  // }
-
-  resolveNavigation(domain: Domain): any[] {
-    // 1. Single Product Redirect logic
+  resolveNavigation(domain: Domain): string | any[] {
     if (domain.product_count === 1 && domain.products?.length > 0) {
-        const product = domain.products[0];
-        // Ensure we use the slug from the product object
-        const productSlug = product.slug || product.name.toLowerCase().replace(/ /g, '-');
-        
-        // FIX: Changed 'products' to 'product' to match MarketplaceRoutingModule
-        return ['/marketplace/product', productSlug];
+      const product = domain.products[0];
+      const productSlug = product.slug || product.name.toLowerCase().replace(/ /g, '-');
+      return ['/marketplace/product', productSlug];
     }
     
-    // 2. Domain/Subdomain Navigation logic
     const slug = domain.slug || domain.name.toLowerCase().replace(/ /g, '-');
-    
-    // Using an absolute path is safer to ensure it always maps back to your root :type route
     return ['/', slug];
   }
 }

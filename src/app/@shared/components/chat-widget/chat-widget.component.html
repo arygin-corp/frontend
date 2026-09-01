@@ -1,0 +1,7 @@
+<!-- Floating Button -->
+<app-ai-brain class="chat-trigger" (click)="toggleChat()"></app-ai-brain>
+
+<!-- Chat Window -->
+<div class="chat-window" *ngIf="isOpen">
+  <app-chat></app-chat>
+</div>
