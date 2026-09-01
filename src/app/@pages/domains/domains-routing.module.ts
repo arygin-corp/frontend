@@ -8,17 +8,17 @@ import { MsalGuard } from '@azure/msal-angular';
 
 const routes: Routes = [
   {
-    path: '',
+    path: "",
     component: DomainsComponent,
     canActivate: [MsalGuard]
   },
   {
-    path: ':type',
+    path: ":type",
     component: SubdomainsOneComponent,
     canActivate: [MsalGuard]
   },
   {
-    path: ':type/:subtype',
+    path: ":type/:subtype",
     component: SubdomainsTwoComponent,
     canActivate: [MsalGuard]
   }

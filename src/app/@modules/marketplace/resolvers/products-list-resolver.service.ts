@@ -7,8 +7,6 @@ import { ShopService, ListOptions } from '../../../@shared/api/shop.service';
 export function parseProductsListParams(params: any): ListOptions {
     const options: ListOptions = {};
 
-    if (!params) return options;                     // <-- ADD THIS
-
     if (params.page) {
         options.page = parseFloat(params.page);
     }
@@ -20,14 +18,12 @@ export function parseProductsListParams(params: any): ListOptions {
     }
 
     const filterValues: any = {};
-    if (typeof params === 'object') {                // <-- AND THIS
-        Object.keys(params).forEach(param => {
-            const mr = param.match(/^filter_([_a-z0-9]+)$/);
-            if (mr) {
-                filterValues[mr[1]] = params[param];
-            }
-        });
-    }
+    Object.keys(params).forEach(param => {
+        const mr = param.match(/^filter_([_a-z0-9]+)$/);
+        if (mr) {
+            filterValues[mr[1]] = params[param];
+        }
+    });
 
     if (Object.keys(filterValues).length > 0) {
         options.filterValues = filterValues;
@@ -35,34 +31,6 @@ export function parseProductsListParams(params: any): ListOptions {
 
     return options;
 }
-
-// export function parseProductsListParams(params: any): ListOptions {
-//     const options: ListOptions = {};
-
-//     if (params.page) {
-//         options.page = parseFloat(params.page);
-//     }
-//     if (params.limit) {
-//         options.limit = parseFloat(params.limit);
-//     }
-//     if (params.sort) {
-//         options.sort = params.sort;
-//     }
-
-//     const filterValues: any = {};
-//     Object.keys(params).forEach(param => {
-//         const mr = param.match(/^filter_([_a-z0-9]+)$/);
-//         if (mr) {
-//             filterValues[mr[1]] = params[param];
-//         }
-//     });
-
-//     if (Object.keys(filterValues).length > 0) {
-//         options.filterValues = filterValues;
-//     }
-
-//     return options;
-// }
 
 @Injectable({
     providedIn: 'root'

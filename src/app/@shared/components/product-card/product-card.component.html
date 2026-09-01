@@ -23,14 +23,10 @@
     <div class="product-card__info">
         <div class="product-card__name" style="font-size: 14px;">
             <a appClick [routerLink]="root.product(product)"><strong>{{ product.name }}</strong></a>
-            <!-- <div class="product-card__rating" style="margin-bottom: 8px;">
+            <div class="product-card__rating" style="margin-bottom: 8px;">
                 <app-rating [value]="product.rating"></app-rating>
                 <div class="product-card__rating-legend">{{ product.reviews }} Reviews</div>
-            </div> -->
-            <!-- <p class="product-card__text">
-                <strong>Domain: </strong>{{ product.domain }}&nbsp;&nbsp;
-                <strong>Datatype: </strong>{{ product.datatype }}&nbsp;&nbsp;<br>
-            </p> -->
+            </div>
             <p class="product-card__text">{{ product.short_desc }}</p>
         </div>
         <!-- <div class="product-card__buttons">

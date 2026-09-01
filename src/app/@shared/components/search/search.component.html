@@ -27,18 +27,9 @@
 
     <div class="search__suggestions suggestions suggestions--location--{{ location }} did_you_mean_header">
         <div class="col-12 no-gutters">
-            <!-- <div class="col-12 did_you_mean" *ngIf="didYouMean" style="padding: 12px 20px; background: #f8f9fa; border-bottom: 1px solid #e1e9f1;">
-                <p style="margin-bottom: 0; font-size: 14px; font-weight: 400; color: #3d464d;">
-                    Did you mean: 
-                    <span (click)="applySuggestion(didYouMean)" style="color: #007bff; cursor: pointer; text-decoration: underline; font-weight: 700;">
-                        {{ didYouMean }}
-                    </span>?
-                </p>
-            </div> -->
             <div class="col-12 did_you_mean" *ngIf="didYouMean" style="padding: 12px 20px; background: #f8f9fa; border-bottom: 1px solid #e1e9f1;">
                 <p style="margin-bottom: 0; font-size: 14px; font-weight: 400; color: #3d464d;">
                     Did you mean: 
-                    <!-- ✅ Click handler calls applySuggestion -->
                     <span (click)="applySuggestion(didYouMean)" style="color: #007bff; cursor: pointer; text-decoration: underline; font-weight: 700;">
                         {{ didYouMean }}
                     </span>?
@@ -90,20 +81,12 @@
                         </div>
                     </li>
                 </ul>
-                <!-- ✅ PAGINATION: Show 7 products per page -->
-                <div *ngIf="totalPages > 1" class="suggestions__pagination" style="padding: 12px 20px; display: flex; justify-content: center;">
-                    <div (click)="$event.stopPropagation(); $event.preventDefault()">
-                        <app-pagination 
-                            [total]="totalPages" 
-                            [current]="currentPage" 
-                            (pageChange)="onPageChange($event)">
-                        </app-pagination>
-                    </div>
-                </div>
-
-                <!-- ✅ Show result count -->
-                <div class="text-center" *ngIf="suggestedProducts.length > 0" style="padding: 8px 8px; font-size: 12px; color: #666;">
-                    Showing {{ (currentPage - 1) * 7 + 1 }} - {{ Math.min(currentPage * 7, totalItems) }} of {{ totalItems }} results
+                <div *ngIf="totalPages > 1" class="suggestions__pagination">
+                    <app-pagination 
+                        [total]="totalPages" 
+                        [current]="currentPage" 
+                        (pageChange)="onPageChange($event)">
+                    </app-pagination>
                 </div>
             </div>
         </div>
