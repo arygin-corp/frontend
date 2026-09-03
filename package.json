@@ -147,7 +147,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "svg-sprite": "^1.5.3",
+    "svg-sprite": "^2.0.4",
     "typescript": "~4.5.4"
   },
   "description": "Global Enterprise Data Marketplace is a self-service portal which enables TMNA users, business partners, affiliates, and contingent workers to discover and request Readily Available Data, Analytics, and Reports at Toyota.",
